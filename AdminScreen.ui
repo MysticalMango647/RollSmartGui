@@ -362,7 +362,7 @@ text-decoration: underline;
     </item>
     <item>
      <property name="text">
-      <string>Practioner</string>
+      <string>Practitioner</string>
      </property>
     </item>
    </widget>

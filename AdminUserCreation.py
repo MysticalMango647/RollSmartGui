@@ -8,17 +8,13 @@ import sys
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication
-
+from PyQt5.QtGui import QIcon
 
 # For Email Notifications
 from email.message import EmailMessage
 import ssl
 import smtplib
 
-
-# setup email SMTP connection
-# session=smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
-# session.login(USERNAME, PASSWORD)
 
 # FireBase KeyConfig
 config = {
@@ -134,7 +130,7 @@ class AdminScreen(QDialog):
         db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set("null")
         db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(creationTime).set("null")
 
-        print("sucessful built of login info and collected data tan;e, sending of to email notification function")
+        print("sucessful built of login info and collected data time, sending of to email notification function")
 
         return
 
@@ -153,7 +149,7 @@ class AdminScreen(QDialog):
         Your Username is: this current email.
         Your Password is: """ + password + """
 
-        If you have any issues, please contact your doctors office.
+        If you have any issues, please contact your local doctors office.
 
         -RollSmart
         """
@@ -183,7 +179,7 @@ widget = QtWidgets.QStackedWidget()
 widget.addWidget(AdminPage)
 widget.setFixedHeight(800)
 widget.setFixedWidth(1200)
-#widget.setWindowIcon(QIcon('projectIcon.jpg'))
+widget.setWindowIcon(QIcon('projectIcon.jpg'))
 widget.setWindowTitle("Roll Smart")
 widget.show()
 try:
