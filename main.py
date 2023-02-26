@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget
+from PyQt5 import QtCore
+from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
 
 
@@ -109,10 +111,10 @@ class UserList(QDialog):
 
         self.UserListTable.setColumnWidth(0,400)
         self.UserListTable.setColumnWidth(1,400)
-        self.UserListTable.setColumnWidth(2,190)
-        self.fillUserTableInfo()
+        self.UserListTable.setColumnWidth(2,180)
+        self.loadUserTableInfo()
 
-    def fillUserTableInfo(self):
+    def loadUserTableInfo(self):
         allUserInfo = db.child("loginInfo").get().val()
         print(db.child("loginInfo").get().val())
         elementRow = 0
@@ -125,6 +127,15 @@ class UserList(QDialog):
             self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
             self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
             elementRow = elementRow + 1
+
+            #Experimenting with check box for col 2, select user
+            '''
+            chkBoxItem = QTableWidgetItem(selectedUID)
+            chkBoxItem.setText(str(selectedUID))
+            chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
+            chkBoxItem.setCheckState(QtCore.Qt.Unchecked)
+            self.ui.UserListTable.setItem(elementRow, 2, chkBoxItem)
+            '''
         return
 
     def loadUserDashboard(self, userLocalId):
@@ -197,6 +208,6 @@ Refrences Used for this project.
 
 Login in Screen and General PyQt5 Walkthrough were used from 
 https://www.youtube.com/@codefirstwithhala
-Most concepts are derived from Hala and expanded upon.
+Most concepts are derived from Hala and expanded upon to fit our usecase.
 
 '''
