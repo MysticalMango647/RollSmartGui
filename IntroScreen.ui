@@ -41,7 +41,7 @@ text-decoration: underline;
 color: rgb(255,255,255);</string>
     </property>
     <property name="text">
-     <string>Smart Rollator</string>
+     <string>RollSmart</string>
     </property>
    </widget>
    <widget class="QPushButton" name="signInButton">
@@ -127,8 +127,11 @@ color: rgb(255,255,255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
+     <string notr="true">background-color: rgba(255,255,255,0);
 font: 20pt &quot;Corbel&quot;;</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <widget class="QLineEdit" name="PasswordEntry">
