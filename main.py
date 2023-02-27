@@ -4,11 +4,10 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget
+from PyQt5.QtWidgets import QDialog, QApplication, QTableWidget, QRadioButton, QTableWidgetItem, QWidget
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
-
 
 #For Firebase
 import pyrebase
@@ -58,7 +57,8 @@ class WelcomeScreen(QDialog):
         elif (userRole == "User"):
             # Go to UserDashboard page(for Users)
             print("role in nextscreenfunc. is user")
-            self.loadUserDashboard(userLocalId)
+            personIsPractitioner = False
+            self.loadUserDashboard(userLocalId, personIsPractitioner)
 
         else:
             print("Role is neither Prac. nor User")
@@ -70,8 +70,8 @@ class WelcomeScreen(QDialog):
         widget.addWidget(goToUserList)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def loadUserDashboard(self, userLocalId):
-        goToUserDashboard = UserDashboard(userLocalId)
+    def loadUserDashboard(self, userLocalId, personIsPractitioner):
+        goToUserDashboard = UserDashboard(userLocalId, personIsPractitioner)
         widget.addWidget(goToUserDashboard)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -90,9 +90,9 @@ class WelcomeScreen(QDialog):
             person = db.child("loginInfo").order_by_child("UID").equal_to(userLocalId).get().val().keys()
             accessingPerson = list(person)
             accessingPersonIs = str(accessingPerson[0])
-            print("in main accessing person name is: ", accessingPersonIs)
+            #print("in main accessing person name is: ", accessingPersonIs)
             roleOfAccessingPersonIs = db.child("loginInfo").child(accessingPersonIs).child("role").get().val()
-            print("role of: ", accessingPersonIs, "is: ", roleOfAccessingPersonIs)
+            #print("role of: ", accessingPersonIs, "is: ", roleOfAccessingPersonIs)
             self.findNextScreenToLoad(roleOfAccessingPersonIs,userLocalId)
 
         except:
@@ -103,45 +103,78 @@ class UserList(QDialog):
     def __init__(self, userId):
         super(UserList, self).__init__()
         loadUi("UserList.ui", self)
-        print("in userlist class init function")
         self.userId = userId
+        global UserUIDtoView
         findWhoUserIs = self.getNamefromUID(userId)
         WelcomeString = str("Welcome, Dr. " + findWhoUserIs)
         self.WelcomeName.setText(WelcomeString)
-
         self.UserListTable.setColumnWidth(0,400)
-        self.UserListTable.setColumnWidth(1,400)
-        self.UserListTable.setColumnWidth(2,180)
+        self.UserListTable.setColumnWidth(1,300)
+        self.UserListTable.setColumnWidth(2,280)
         self.loadUserTableInfo()
 
     def loadUserTableInfo(self):
         allUserInfo = db.child("loginInfo").get().val()
-        print(db.child("loginInfo").get().val())
+        #print(db.child("loginInfo").get().val())
         elementRow = 0
-        print("the length of alluserInfo is: ", len(allUserInfo))
-        self.UserListTable.setRowCount(len(allUserInfo))
-        for key, val in allUserInfo.items():
-            print(key)
-            print(val.get('DOB'))
-            selectedUID=val.get('UID')
-            self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
-            self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
-            elementRow = elementRow + 1
+        numberofUsers = len(list(db.child("loginInfo").order_by_child("role").equal_to("User").get().val().keys()))
+        #print(numberofUsers)
+        self.UserListTable.setRowCount(numberofUsers)
+        #getPractitionersUserSelection =
+        self.UserListTable.selectionModel().selectionChanged.connect(self.selectionMade)
 
-            #Experimenting with check box for col 2, select user
-            '''
-            chkBoxItem = QTableWidgetItem(selectedUID)
-            chkBoxItem.setText(str(selectedUID))
-            chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
-            chkBoxItem.setCheckState(QtCore.Qt.Unchecked)
-            self.ui.UserListTable.setItem(elementRow, 2, chkBoxItem)
-            '''
+        #self.signInButton.clicked.connect(self.verifyUserSelectionDoneProperly())
+
+        for key, val in allUserInfo.items():
+            #print(key)
+            #print(val.get('DOB'))
+            selectedUID=val.get('UID')
+            #Only display Users, no practitioners in the list of users
+            if (val.get('role') != "Practitioner"):
+                self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
+                self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
+                self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(str(val.get('UID'))))
+                elementRow = elementRow + 1
+
+                '''Was trying to add radio button here instead, but it wasn't working out'''
+                #userSelectRadioButton = QtWidgets.QRadioButton(str(val.get('UID')))
+                #userSelectRadioButton.setChecked(False)
+                #self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(userSelectRadioButton))
+
+
+                '''was Experimenting with check box for col 2, select user'''
+                '''
+                chkBoxItem = QTableWidgetItem(selectedUID)
+                chkBoxItem.setText(str(selectedUID))
+                chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
+                chkBoxItem.setCheckState(QtCore.Qt.Unchecked)
+                self.ui.UserListTable.setItem(elementRow, 2, chkBoxItem)
+                
+                #src: https://stackoverflow.com/questions/39511181/python-add-checkbox-to-every-row-in-qtablewidget
+                '''
         return
 
-    def loadUserDashboard(self, userLocalId):
-        goToUserDashboard = UserDashboard(userLocalId)
-        widget.addWidget(goToUserDashboard)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def selectionMade(self, selected, deselected):
+        for ix in selected.indexes():
+            print('Selected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
+            self.verifyUserSelectionDoneProperly(ix.row(),ix.column())
+        #for ix in deselected.indexes():
+        #    print('Deselected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
+        #function src: https://learndataanalysis.org/source-code-how-to-detect-selected-and-deselected-cells-on-a-qtablewidget-pyqt5-tutorial/
+
+
+    def verifyUserSelectionDoneProperly(self, row, col):
+        #print("verifying user chose proper column")
+        if(col != 2):
+            self.InvalidSelectionMade.setText("Please Select only one user from the third column only")
+        else:
+            self.InvalidSelectionMade.setText("")
+            PractitionerSelectedUID = self.UserListTable.item(row, col).text()
+            print("The selected UID is: ", self.UserListTable.item(row, col).text())
+            personIsPractitioner = True
+            self.loadUserDashboard(PractitionerSelectedUID, personIsPractitioner)
+
 
     def getNamefromUID(self, userId):
         # self.login = login
@@ -176,16 +209,30 @@ class UserList(QDialog):
         print(accessingPerson)
         return(accessingPersonName)
 
-
-
+    def loadUserDashboard(self, userLocalId, isPractitioner):
+        goToUserDashboard = UserDashboard(userLocalId, isPractitioner)
+        widget.addWidget(goToUserDashboard)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
 class UserDashboard(QDialog):
-    def __init__(self, userId):
+    def __init__(self, userId, isPractitioner):
         super(UserDashboard, self).__init__()
         loadUi("UserDashboard.ui", self)
         self.userId = userId
+        '''isPractitioner is going to be a boolean value, that can later 
+        be used to determine to to exit out userDashboard to userlist'''
+        self.isPractitioner = isPractitioner
         print("in UserDashboard class")
+        findWhoUserIs = self.getNamefromUID(userId)
+        WelcomeString = str("Welcome, Dr. " + findWhoUserIs)
+        print("verify Person is practioner: ", isPractitioner)
+
+    def getNamefromUID(self, userId):
+        person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
+        userNameis = list(person)
+        userNameis = userNameis[0]
+        return(userNameis)
 
 app = QApplication(sys.argv)
 welcome = WelcomeScreen()
@@ -199,7 +246,7 @@ widget.show()
 try:
     sys.exit(app.exec_())
 except:
-    print("Exiting")
+    print("Closing Out App")
 
 
 

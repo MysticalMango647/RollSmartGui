@@ -144,7 +144,7 @@ color: rgb(255,255,255);</string>
     </column>
     <column>
      <property name="text">
-      <string>Select User</string>
+      <string>Select User Here!</string>
      </property>
      <property name="font">
       <font>
@@ -157,6 +157,32 @@ color: rgb(255,255,255);</string>
       <set>AlignCenter</set>
      </property>
     </column>
+   </widget>
+   <widget class="QLabel" name="InvalidSelectionMade">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>720</y>
+      <width>891</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Corbel</family>
+      <pointsize>20</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;Corbel&quot;;
+color: rgb(255,0,0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
  </widget>

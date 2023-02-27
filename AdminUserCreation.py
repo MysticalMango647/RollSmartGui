@@ -167,8 +167,9 @@ class AdminScreen(QDialog):
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=securityContent) as smtp:
             smtp.login(rollSmartEmail, securePassword)
             smtp.sendmail(rollSmartEmail, receivingEmail, emailObject.as_string())
-
         print("Email Sent")
+
+        #SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
         return
 
 
