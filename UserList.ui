@@ -26,25 +26,6 @@
     <string notr="true">QWidget#widget{
 background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(170, 255, 255, 255), stop:0.0113636 rgba(167, 199, 231, 255), stop:1 rgba(0, 128, 128, 255))}</string>
    </property>
-   <widget class="QPushButton" name="submitButton">
-    <property name="geometry">
-     <rect>
-      <x>1030</x>
-      <y>740</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 20px;
-font: 30pt &quot;Corbel&quot;;
-color: rgb(255,255,255);
-background-color: rgb(147, 136, 162)</string>
-    </property>
-    <property name="text">
-     <string>Submit</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="WelcomeName">
     <property name="geometry">
      <rect>
@@ -111,6 +92,9 @@ color: rgb(255,255,255);</string>
       <width>1000</width>
       <height>500</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <column>
      <property name="text">

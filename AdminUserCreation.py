@@ -146,7 +146,7 @@ class AdminScreen(QDialog):
         emailBody = """
         Welcome to RollSmart!
 
-        Your Username is: this current email.
+        Your Username is: """ + receivingEmail + """
         Your Password is: """ + password + """
 
         If you have any issues, please contact your local doctors office.

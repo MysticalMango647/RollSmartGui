@@ -41,7 +41,7 @@ class WelcomeScreen(QDialog):
         self.signInButton.clicked.connect(self.verifySignIn)
 
     def findNextScreenToLoad(self, userRole, userLocalId):
-        print("in findNextScreenToLoad function")
+        #print("in findNextScreenToLoad function")
         '''
         goToUserList = UserList(userLocalId)
         widget.addWidget(goToUserList)
@@ -223,16 +223,56 @@ class UserDashboard(QDialog):
         '''isPractitioner is going to be a boolean value, that can later 
         be used to determine to to exit out userDashboard to userlist'''
         self.isPractitioner = isPractitioner
-        print("in UserDashboard class")
+        print("Verifying person is practioner: ", isPractitioner)
+
         findWhoUserIs = self.getNamefromUID(userId)
-        WelcomeString = str("Welcome, Dr. " + findWhoUserIs)
-        print("verify Person is practioner: ", isPractitioner)
+        self.userName = findWhoUserIs
+
+        self.WelcomeName.setText(findWhoUserIs)
+        userDescription = self.getDescription(userId)
+        self.Description.setText(userDescription)
+
+        '''Code keeps breaking upon button press, have to debug'''
+        self.detailedAnalytics.clicked.connect(self.goToUserDetailedAnalyticsSelectionPage)
+        #waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
+        #self.detailedAnalytics.clicked.connect(waitingForButtonPress)
+
+        '''Testing Alt solutions'''
+
+        #waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
+        #self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
     def getNamefromUID(self, userId):
         person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
         userNameis = list(person)
         userNameis = userNameis[0]
         return(userNameis)
+
+    def getDescription(self, userId):
+        userInfo = db.child("loginInfo").get().val()
+        #print(userInfo)
+        for key, val in userInfo.items():
+            if val.get('UID') == userId:
+                return(val.get('Description'))
+
+    def goToUserDetailedAnalyticsSelectionPage(self):
+        #print("goToUserDetailedAnalyticsSelectionPage coming soon")
+        goToUserDetailedAnalyticSelectionPage = UserDetailedAnalyticsSelectionPage(self.userId, self.userName, self.isPractitioner)
+        #self.userId, "Mango Pods", self.isPractitioner
+        widget.addWidget(goToUserDetailedAnalyticSelectionPage)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+class UserDetailedAnalyticsSelectionPage(QDialog):
+    def __init__(self, userId, userName, isPractitioner):
+        super(UserDetailedAnalyticsSelectionPage, self).__init__()
+        loadUi("UserDetailedAnalyticsSelectionPage.ui", self)
+
+        self.userId = userId
+        self.userName = userName
+        self.isPractitioner = isPractitioner
+        displayHeaderText = userName + "'s Detailed Analytics Selection"
+        self.NameDetails.setText(displayHeaderText)
+
 
 app = QApplication(sys.argv)
 welcome = WelcomeScreen()

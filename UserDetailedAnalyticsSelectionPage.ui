@@ -26,11 +26,11 @@
     <string notr="true">QWidget#widget{
 background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(170, 255, 255, 255), stop:0.0113636 rgba(167, 199, 231, 255), stop:1 rgba(0, 128, 128, 255))}</string>
    </property>
-   <widget class="QPushButton" name="detailedAnalytics">
+   <widget class="QPushButton" name="Submit">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>730</y>
+      <x>860</x>
+      <y>720</y>
       <width>311</width>
       <height>51</height>
      </rect>
@@ -42,15 +42,15 @@ color: rgb(255,255,255);
 background-color: rgb(147, 136, 162)</string>
     </property>
     <property name="text">
-     <string>Detailed Analytics</string>
+     <string>Submit</string>
     </property>
    </widget>
-   <widget class="QLabel" name="WelcomeName">
+   <widget class="QLabel" name="NameDetails">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>10</y>
-      <width>591</width>
+      <width>1171</width>
       <height>61</height>
      </rect>
     </property>
@@ -72,6 +72,9 @@ color: rgb(255,255,255);</string>
     <property name="text">
      <string/>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="Line" name="line">
     <property name="geometry">
@@ -86,11 +89,11 @@ color: rgb(255,255,255);</string>
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="Description">
+   <widget class="QLabel" name="infoText">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>130</y>
+      <y>90</y>
       <width>1171</width>
       <height>41</height>
      </rect>
@@ -109,32 +112,17 @@ color: rgb(255,255,255);</string>
 color: rgb(255,255,255);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Please Choose From The Options Below</string>
     </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>201</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Description:</string>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="Line" name="line_2">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>180</y>
+      <y>130</y>
       <width>1211</width>
       <height>20</height>
      </rect>
@@ -143,142 +131,137 @@ color: rgb(255,255,255);</string>
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>160</y>
+      <width>631</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="infoText_2">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Select Start Date:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="StartDate">
+       <property name="styleSheet">
+        <string notr="true">font: 20pt &quot;Corbel&quot;;
+</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="infoText_3">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Select End Date:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="EndDate">
+       <property name="styleSheet">
+        <string notr="true">font: 20pt &quot;Corbel&quot;;
+</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>249</y>
-      <width>1091</width>
-      <height>421</height>
+      <x>30</x>
+      <y>150</y>
+      <width>451</width>
+      <height>111</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="6" column="1">
-      <widget class="QLabel" name="TS">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-       </property>
-       <property name="text">
-        <string>TS</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="2">
-      <widget class="QLabel" name="AU">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-       </property>
-       <property name="text">
-        <string>AS</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_4">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-</string>
-       </property>
-       <property name="text">
-        <string>Handle Pref. Ratio</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+     <item row="1" column="1">
+      <widget class="Line" name="line_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="DT">
+      <widget class="QLabel" name="infoText_5">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>DT</string>
+        <string>Ended:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="TT">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-       </property>
-       <property name="text">
-        <string>TT</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="Line" name="line_7">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="Line" name="line_9">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLabel" name="HR">
+      <widget class="QLabel" name="GetLogEndDate">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>HR</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="HP">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-       </property>
-       <property name="text">
-        <string>HP</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-</string>
-       </property>
-       <property name="text">
-        <string>Total Time of Travel</string>
+        <string>TempDate</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -286,95 +269,76 @@ color: rgb(255,255,255);</string>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="GetLogStartDate">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">font: 16pt &quot;Corbel&quot;;
-</string>
-       </property>
-       <property name="text">
-        <string>Avg. Heart Rate</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="label_6">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-</string>
-       </property>
-       <property name="text">
-        <string># of Times Used While Seated</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2">
-      <widget class="QLabel" name="label_7">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-</string>
-       </property>
-       <property name="text">
-        <string>Avg. Time Use (IMU Based)</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="dailysummarytext">
-       <property name="styleSheet">
-        <string notr="true">font:  20pt &quot;Corbel&quot;;
-text-decoration: underline;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>24 Hour Summary</string>
+        <string>TempDate</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="infoText_6">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>NOTE! User Logging Timing</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="infoText_4">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;</string>
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>Distanced Travelled</string>
+        <string>Began:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="Line" name="line_8">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="Line" name="line_10">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="Line" name="line_11">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="Line" name="line_12">
+     <item row="1" column="0">
+      <widget class="Line" name="line_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -382,56 +346,165 @@ color: rgb(255,255,255);</string>
      </item>
     </layout>
    </widget>
-   <widget class="Line" name="line_3">
+   <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>240</y>
-      <width>20</width>
-      <height>441</height>
+      <y>290</y>
+      <width>1141</width>
+      <height>401</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_4">
-    <property name="geometry">
-     <rect>
-      <x>1140</x>
-      <y>240</y>
-      <width>20</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="1" column="1">
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>More Coming Soon</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>More Coming Soon</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="styleSheet">
+        <string notr="true">font: 14pt &quot;Corbel&quot;;</string>
+       </property>
+       <property name="text">
+        <string>&quot;Jerkiness&quot; Movement Count Per Day</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>Speed vs. Heartrate Line Graph</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButton_6">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>More Coming Soon</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="styleSheet">
+        <string notr="true">font: 14pt &quot;Corbel&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Average Resting Period on Chair Bar Graph</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButton_7">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>More Coming Soon</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="pushButton_8">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>More Coming Soon</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="pushButton_9">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+</string>
+       </property>
+       <property name="text">
+        <string>More Coming Soon</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
    <widget class="Line" name="line_5">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>230</y>
-      <width>1111</width>
-      <height>20</height>
+      <x>1170</x>
+      <y>140</y>
+      <width>20</width>
+      <height>641</height>
      </rect>
     </property>
     <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
    <widget class="Line" name="line_6">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>670</y>
-      <width>1111</width>
+      <x>860</x>
+      <y>770</y>
+      <width>321</width>
       <height>20</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_7">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>150</y>
+      <width>20</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_8">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>20</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
   </widget>
