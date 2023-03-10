@@ -59,7 +59,7 @@ color: rgb(255,255,255);</string>
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>331</width>
+      <width>761</width>
       <height>51</height>
      </rect>
     </property>
@@ -68,7 +68,7 @@ color: rgb(255,255,255);</string>
 color: rgb(255,255,255);</string>
     </property>
     <property name="text">
-     <string>Please select a user</string>
+     <string>Please select a Row to view a profile</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -87,8 +87,8 @@ color: rgb(255,255,255);</string>
    <widget class="QTableWidget" name="UserListTable">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>200</y>
+      <x>90</x>
+      <y>180</y>
       <width>1000</width>
       <height>500</height>
      </rect>
@@ -145,7 +145,7 @@ color: rgb(255,255,255);</string>
    <widget class="QLabel" name="InvalidSelectionMade">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>80</x>
       <y>720</y>
       <width>891</width>
       <height>61</height>
@@ -166,6 +166,44 @@ color: rgb(255,0,0);</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CreateNewUser">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>100</y>
+      <width>241</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 20pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Create New User</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Submit">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>730</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 30pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Submit</string>
     </property>
    </widget>
   </widget>

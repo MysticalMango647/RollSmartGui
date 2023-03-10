@@ -1,4 +1,4 @@
-#For Gui
+# For Gui
 import sys
 
 from PyQt5.QtWidgets import *
@@ -8,11 +8,24 @@ from PyQt5.QtWidgets import QDialog, QApplication, QTableWidget, QRadioButton, Q
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
+from PyQt5.Qt import Qt
+import keyboard
 
-#For Firebase
+# For Firebase
 import pyrebase
 
-#KeyConfig
+
+#Libraries carried over from admin screen
+# For Email Notifications
+from email.message import EmailMessage
+import ssl
+import smtplib
+
+#date time
+from datetime import datetime
+
+
+# KeyConfig
 config = {
     'apiKey': "AIzaSyB8YyKlyoarYSiAfS6ZpbmfFHmW5xLIhYg",
     'authDomain': "sysc4907rollsmart.firebaseapp.com",
@@ -27,21 +40,23 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 auth = firebase.auth()
 
-#Establish User
+# Establish User
 global userLocalId
 
 
 class WelcomeScreen(QDialog):
     def __init__(self):
         super(WelcomeScreen, self).__init__()
-        loadUi("IntroScreen.ui",self)
+        loadUi("IntroScreen.ui", self)
         self.PasswordEntry.setEchoMode(QtWidgets.QLineEdit.Password)
-        #gettingUserId=self.verifySignIn
-        #print(gettingUserId)
+        # gettingUserId=self.verifySignIn
+        # print(gettingUserId)
         self.signInButton.clicked.connect(self.verifySignIn)
 
+
+
     def findNextScreenToLoad(self, userRole, userLocalId):
-        #print("in findNextScreenToLoad function")
+        # print("in findNextScreenToLoad function")
         '''
         goToUserList = UserList(userLocalId)
         widget.addWidget(goToUserList)
@@ -63,7 +78,6 @@ class WelcomeScreen(QDialog):
         else:
             print("Role is neither Prac. nor User")
             self.InvalidSignInAttempt.setText("Internal Error: User has no assigned role")
-
 
     def loadUserList(self, userLocalId):
         goToUserList = UserList(userLocalId)
@@ -90,11 +104,10 @@ class WelcomeScreen(QDialog):
             person = db.child("loginInfo").order_by_child("UID").equal_to(userLocalId).get().val().keys()
             accessingPerson = list(person)
             accessingPersonIs = str(accessingPerson[0])
-            #print("in main accessing person name is: ", accessingPersonIs)
+            # print("in main accessing person name is: ", accessingPersonIs)
             roleOfAccessingPersonIs = db.child("loginInfo").child(accessingPersonIs).child("role").get().val()
-            #print("role of: ", accessingPersonIs, "is: ", roleOfAccessingPersonIs)
-            self.findNextScreenToLoad(roleOfAccessingPersonIs,userLocalId)
-
+            # print("role of: ", accessingPersonIs, "is: ", roleOfAccessingPersonIs)
+            self.findNextScreenToLoad(roleOfAccessingPersonIs, userLocalId)
         except:
             self.InvalidSignInAttempt.setText("Invalid Email or Password")
 
@@ -108,28 +121,28 @@ class UserList(QDialog):
         findWhoUserIs = self.getNamefromUID(userId)
         WelcomeString = str("Welcome, Dr. " + findWhoUserIs)
         self.WelcomeName.setText(WelcomeString)
-        self.UserListTable.setColumnWidth(0,400)
-        self.UserListTable.setColumnWidth(1,300)
-        self.UserListTable.setColumnWidth(2,280)
+        self.UserListTable.setColumnWidth(0, 400)
+        self.UserListTable.setColumnWidth(1, 300)
+        self.UserListTable.setColumnWidth(2, 280)
         self.loadUserTableInfo()
 
     def loadUserTableInfo(self):
         allUserInfo = db.child("loginInfo").get().val()
-        #print(db.child("loginInfo").get().val())
+        # print(db.child("loginInfo").get().val())
         elementRow = 0
         numberofUsers = len(list(db.child("loginInfo").order_by_child("role").equal_to("User").get().val().keys()))
-        #print(numberofUsers)
+        # print(numberofUsers)
         self.UserListTable.setRowCount(numberofUsers)
-        #getPractitionersUserSelection =
+        # getPractitionersUserSelection =
         self.UserListTable.selectionModel().selectionChanged.connect(self.selectionMade)
 
-        #self.signInButton.clicked.connect(self.verifyUserSelectionDoneProperly())
+        # self.signInButton.clicked.connect(self.verifyUserSelectionDoneProperly())
 
         for key, val in allUserInfo.items():
-            #print(key)
-            #print(val.get('DOB'))
-            selectedUID=val.get('UID')
-            #Only display Users, no practitioners in the list of users
+            # print(key)
+            # print(val.get('DOB'))
+            selectedUID = val.get('UID')
+            # Only display Users, no practitioners in the list of users
             if (val.get('role') != "Practitioner"):
                 self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
                 self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
@@ -137,10 +150,9 @@ class UserList(QDialog):
                 elementRow = elementRow + 1
 
                 '''Was trying to add radio button here instead, but it wasn't working out'''
-                #userSelectRadioButton = QtWidgets.QRadioButton(str(val.get('UID')))
-                #userSelectRadioButton.setChecked(False)
-                #self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(userSelectRadioButton))
-
+                # userSelectRadioButton = QtWidgets.QRadioButton(str(val.get('UID')))
+                # userSelectRadioButton.setChecked(False)
+                # self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(userSelectRadioButton))
 
                 '''was Experimenting with check box for col 2, select user'''
                 '''
@@ -154,19 +166,17 @@ class UserList(QDialog):
                 '''
         return
 
-
     def selectionMade(self, selected, deselected):
         for ix in selected.indexes():
             print('Selected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
-            self.verifyUserSelectionDoneProperly(ix.row(),ix.column())
-        #for ix in deselected.indexes():
+            self.verifyUserSelectionDoneProperly(ix.row(), ix.column())
+        # for ix in deselected.indexes():
         #    print('Deselected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
-        #function src: https://learndataanalysis.org/source-code-how-to-detect-selected-and-deselected-cells-on-a-qtablewidget-pyqt5-tutorial/
-
+        # function src: https://learndataanalysis.org/source-code-how-to-detect-selected-and-deselected-cells-on-a-qtablewidget-pyqt5-tutorial/
 
     def verifyUserSelectionDoneProperly(self, row, col):
-        #print("verifying user chose proper column")
-        if(col != 2):
+        # print("verifying user chose proper column")
+        if (col != 2):
             self.InvalidSelectionMade.setText("Please Select only one user from the third column only")
         else:
             self.InvalidSelectionMade.setText("")
@@ -174,7 +184,6 @@ class UserList(QDialog):
             print("The selected UID is: ", self.UserListTable.item(row, col).text())
             personIsPractitioner = True
             self.loadUserDashboard(PractitionerSelectedUID, personIsPractitioner)
-
 
     def getNamefromUID(self, userId):
         # self.login = login
@@ -207,13 +216,12 @@ class UserList(QDialog):
         accessingPerson = list(person)
         accessingPersonName = accessingPerson[0]
         print(accessingPerson)
-        return(accessingPersonName)
+        return (accessingPersonName)
 
     def loadUserDashboard(self, userLocalId, isPractitioner):
         goToUserDashboard = UserDashboard(userLocalId, isPractitioner)
         widget.addWidget(goToUserDashboard)
         widget.setCurrentIndex(widget.currentIndex() + 1)
-
 
 class UserDashboard(QDialog):
     def __init__(self, userId, isPractitioner):
@@ -234,33 +242,35 @@ class UserDashboard(QDialog):
 
         '''Code keeps breaking upon button press, have to debug'''
         self.detailedAnalytics.clicked.connect(self.goToUserDetailedAnalyticsSelectionPage)
-        #waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
-        #self.detailedAnalytics.clicked.connect(waitingForButtonPress)
+        # waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
+        # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
         '''Testing Alt solutions'''
 
-        #waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
-        #self.detailedAnalytics.clicked.connect(waitingForButtonPress)
+        # waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
+        # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
     def getNamefromUID(self, userId):
         person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
         userNameis = list(person)
         userNameis = userNameis[0]
-        return(userNameis)
+        return (userNameis)
 
     def getDescription(self, userId):
         userInfo = db.child("loginInfo").get().val()
-        #print(userInfo)
+        # print(userInfo)
         for key, val in userInfo.items():
             if val.get('UID') == userId:
-                return(val.get('Description'))
+                return (val.get('Description'))
 
     def goToUserDetailedAnalyticsSelectionPage(self):
-        #print("goToUserDetailedAnalyticsSelectionPage coming soon")
-        goToUserDetailedAnalyticSelectionPage = UserDetailedAnalyticsSelectionPage(self.userId, self.userName, self.isPractitioner)
-        #self.userId, "Mango Pods", self.isPractitioner
+        # print("goToUserDetailedAnalyticsSelectionPage coming soon")qt
+        goToUserDetailedAnalyticSelectionPage = UserDetailedAnalyticsSelectionPage(self.userId, self.userName,
+                                                                                   self.isPractitioner)
+        # self.userId, "Mango Pods", self.isPractitioner
         widget.addWidget(goToUserDetailedAnalyticSelectionPage)
         widget.setCurrentIndex(widget.currentIndex() + 1)
+
 
 class UserDetailedAnalyticsSelectionPage(QDialog):
     def __init__(self, userId, userName, isPractitioner):
@@ -272,6 +282,145 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         self.isPractitioner = isPractitioner
         displayHeaderText = userName + "'s Detailed Analytics Selection"
         self.NameDetails.setText(displayHeaderText)
+
+class NewAccountCreation(QDialog):
+    def __init__(self):
+        super(NewAccountCreation, self).__init__()
+        loadUi("AdminScreen.ui", self)
+        self.SucessSubmitted.setText("Not Submitted")
+        self.SubmitButton.clicked.connect(self.submitPressed)
+
+    # once Submitted is pressed, no more editing is allowed
+    def NoMoreEditing(self):
+        listToDisable = ['FirstName', 'LastName', 'Email', 'Password', 'PasswordDouble', 'Description']
+        '''
+        for items in listToDisable:
+
+            self.getattr(self, items).setReadOnly(True)
+            self.getattr(self, items).setDisabled(True)
+
+        '''
+        self.FirstName.setReadOnly(True)
+        self.FirstName.setDisabled(True)
+        self.LastName.setReadOnly(True)
+        self.LastName.setDisabled(True)
+        self.Email.setReadOnly(True)
+        self.Email.setDisabled(True)
+        self.Password.setReadOnly(True)
+        self.Password.setDisabled(True)
+        self.PasswordDouble.setReadOnly(True)
+        self.PasswordDouble.setDisabled(True)
+
+
+        print("disable User input sucess")
+        return
+
+    def submitPressed(self):
+        firstName = self.FirstName.text()
+        lastName = self.LastName.text()
+        email = self.Email.text()
+        password = self.Password.text()
+        passwordCheck = self.PasswordDouble.text()
+        description = self.Description.text()
+        roleType = self.TypeSelection.currentText()
+        dob = self.DOB.selectedDate().toString()
+
+        self.createFirebaseAuthAccount(email, password)
+
+        # email, password, firstName, lastName, description, roleType, dob
+        self.fillInLoginInfoToFirebase(email, password, firstName, lastName, description, roleType, dob)
+
+        print(lastName + ", " + firstName)
+        print("The Selected Role is: ", roleType)
+        print("The Selected DOB is: ", dob)
+        print("Submitted Pressed")
+        self.sendUserNotification(email, password)
+        print("Notification Sent, Everything completed.")
+        self.SucessSubmitted.setText("Submitted :)")
+        self.NoMoreEditing()
+
+    # Setup email and password for firebase Auth
+    def createFirebaseAuthAccount(self, email, password):
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            print("New Account Created Sucessfully")
+            return True
+        except:
+            print("email exist already")
+            return False
+
+    def fillInLoginInfoToFirebase(self, email, password, firstName, lastName, description, roleType, dob):
+        # signing into firebase
+
+        login = auth.sign_in_with_email_and_password(email, password)
+        print("sign on to firebase sucess")
+        userInfo = auth.get_account_info(login['idToken'])
+        userLocalId = userInfo['users'][0]['localId']
+        print(userInfo)
+        print("The user local Id is: ", userLocalId)
+
+        # setup detail for loginInfo Table
+        loginInfo = "loginInfo"
+        #templateForName = "Name"
+        CreateName = (firstName + " " + lastName)
+        #db.child(loginInfo).child(templateForName).set(CreateName)
+        db.child(loginInfo).child(CreateName).child("UID").set(userLocalId)
+        db.child(loginInfo).child(CreateName).child("role").set(roleType)
+        db.child(loginInfo).child(CreateName).child("DOB").set(dob)
+        db.child(loginInfo).child(CreateName).child("Description").set(description)
+
+        #setup base structure for collecteddata table
+        collectedData = "collectedData"
+        creationDate = datetime.today().strftime('%Y-%m-%d')
+        creationTime = datetime.today().strftime('%H:%M:%S')
+        db.child(collectedData).child(userLocalId).child("heartRate").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("jerk").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("seat").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(creationTime).set("null")
+
+        print("sucessful built of login info and collected data time, sending of to email notification function")
+
+        return
+
+    # Email Notification to user when account is created.
+    def sendUserNotification(self, email, password):
+        # email notification details
+        rollSmartEmail = 'sysc4907rollsmart@gmail.com'
+        rollSmartPassword = 'Sysc4907'
+        securePassword = 'fxnoeivordwkvtkf'
+        receivingEmail = email
+
+        emailSubject = 'Welcome to RollSmart!'
+        emailBody = """
+        Welcome to RollSmart!
+
+        Your Username is: """ + receivingEmail + """
+        Your Password is: """ + password + """
+
+        If you have any issues, please contact your local doctors office.
+
+        -RollSmart
+        """
+        # Set Elements of email
+        emailObject = EmailMessage()
+        emailObject['From'] = rollSmartEmail
+        emailObject['To'] = receivingEmail
+        emailObject['Subject'] = emailSubject
+        emailObject.set_content(emailBody)
+
+        # adding ssl security for email transmission
+        securityContent = ssl.create_default_context()
+
+        # Sending the email
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=securityContent) as smtp:
+            smtp.login(rollSmartEmail, securePassword)
+            smtp.sendmail(rollSmartEmail, receivingEmail, emailObject.as_string())
+        print("Email Sent")
+
+        #SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
+        return
+
 
 
 app = QApplication(sys.argv)
@@ -287,7 +436,6 @@ try:
     sys.exit(app.exec_())
 except:
     print("Closing Out App")
-
 
 
 '''

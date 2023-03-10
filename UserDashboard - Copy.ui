@@ -134,9 +134,9 @@ color: rgb(255,255,255);</string>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>540</x>
       <y>160</y>
-      <width>651</width>
+      <width>631</width>
       <height>101</height>
      </rect>
     </property>
@@ -211,7 +211,7 @@ color: rgb(255,255,255);</string>
       <x>30</x>
       <y>150</y>
       <width>451</width>
-      <height>125</height>
+      <height>111</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">

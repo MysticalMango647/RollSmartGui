@@ -2,7 +2,6 @@
 import pyrebase
 from datetime import datetime
 
-#import ipython
 # For Gui
 import sys
 from PyQt5.uic import loadUi
@@ -60,8 +59,7 @@ class AdminScreen(QDialog):
         self.Password.setDisabled(True)
         self.PasswordDouble.setReadOnly(True)
         self.PasswordDouble.setDisabled(True)
-        # self.DOB.setReadOnly(True)
-        # self.DOB.setDisabled(True)
+
 
         print("disable User input sucess")
         return
