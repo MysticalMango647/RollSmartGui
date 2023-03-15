@@ -3,13 +3,11 @@ import sys
 
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QTableWidget, QRadioButton, QTableWidgetItem, QWidget
+from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtWidgets import QDialog, QApplication, QComboBox,QTableWidget, QRadioButton, QTableWidgetItem, QWidget
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
-from PyQt5.Qt import Qt
-import keyboard
 
 # For Firebase
 import pyrebase
@@ -22,8 +20,9 @@ import ssl
 import smtplib
 
 #date time
-from datetime import datetime
+from datetime import datetime, date
 
+import keyboard
 
 # KeyConfig
 config = {
@@ -52,8 +51,17 @@ class WelcomeScreen(QDialog):
         # gettingUserId=self.verifySignIn
         # print(gettingUserId)
         self.signInButton.clicked.connect(self.verifySignIn)
+        self.createNewAccountButton.clicked.connect(self.loadNewAccountCreationPage)
 
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Enter:
+            self.verifySignIn()
 
+    def loadNewAccountCreationPage(self):
+        practId = None
+        goToNewAccountCreation = NewAccountCreation(practId)
+        widget.addWidget(goToNewAccountCreation)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def findNextScreenToLoad(self, userRole, userLocalId):
         # print("in findNextScreenToLoad function")
@@ -85,7 +93,8 @@ class WelcomeScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def loadUserDashboard(self, userLocalId, personIsPractitioner):
-        goToUserDashboard = UserDashboard(userLocalId, personIsPractitioner)
+        noPracId = None
+        goToUserDashboard = UserDashboard(userLocalId, personIsPractitioner, noPracId)
         widget.addWidget(goToUserDashboard)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -126,6 +135,14 @@ class UserList(QDialog):
         self.UserListTable.setColumnWidth(2, 280)
         self.loadUserTableInfo()
 
+        self.PracCreateNewUser.clicked.connect(self.loadNewAccountCreationPage)
+
+
+    def loadNewAccountCreationPage(self):
+        practId = self.userId
+        goToNewAccountCreation = NewAccountCreation(practId)
+        widget.addWidget(goToNewAccountCreation)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
     def loadUserTableInfo(self):
         allUserInfo = db.child("loginInfo").get().val()
         # print(db.child("loginInfo").get().val())
@@ -135,7 +152,13 @@ class UserList(QDialog):
         self.UserListTable.setRowCount(numberofUsers)
         # getPractitionersUserSelection =
         self.UserListTable.selectionModel().selectionChanged.connect(self.selectionMade)
+        comboboxList=[]
 
+        #NUmber on combo box in incremented by 1 to match what UserListTable displays
+        for i in range(numberofUsers):
+            comboboxList.append(str(i+1))
+        print(comboboxList)
+        self.RowCounterBox.addItems(comboboxList)
         # self.signInButton.clicked.connect(self.verifyUserSelectionDoneProperly())
 
         for key, val in allUserInfo.items():
@@ -146,7 +169,19 @@ class UserList(QDialog):
             if (val.get('role') != "Practitioner"):
                 self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
                 self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
-                self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(str(val.get('UID'))))
+                dobYearString, mm, dd, yy = (val.get('DOB')).split(" ", 3)
+
+                months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                getMonthinNum = months.index(mm.lower())+1
+                print(getMonthinNum+1)
+
+                today = date.today()
+                year_diff = today.year - int(yy)
+                getMMandDDdifference = ((today.month, today.day) < (int(getMonthinNum), int(dd)))
+                age = year_diff - getMMandDDdifference
+                #logic from https://pyshark.com/build-age-calculator-in-python/
+
+                self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(str(age)))
                 elementRow = elementRow + 1
 
                 '''Was trying to add radio button here instead, but it wasn't working out'''
@@ -169,6 +204,7 @@ class UserList(QDialog):
     def selectionMade(self, selected, deselected):
         for ix in selected.indexes():
             print('Selected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
+            self.RowCounterBox.setCurrentIndex(ix.row())
             self.verifyUserSelectionDoneProperly(ix.row(), ix.column())
         # for ix in deselected.indexes():
         #    print('Deselected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
@@ -176,14 +212,20 @@ class UserList(QDialog):
 
     def verifyUserSelectionDoneProperly(self, row, col):
         # print("verifying user chose proper column")
-        if (col != 2):
+        approvedCol = [0,1,2]
+        if (col not in approvedCol):
             self.InvalidSelectionMade.setText("Please Select only one user from the third column only")
+
         else:
             self.InvalidSelectionMade.setText("")
             PractitionerSelectedUID = self.UserListTable.item(row, col).text()
             print("The selected UID is: ", self.UserListTable.item(row, col).text())
             personIsPractitioner = True
-            self.loadUserDashboard(PractitionerSelectedUID, personIsPractitioner)
+
+            ###################################
+            #Uncomment Below to load next screen
+
+            #self.loadUserDashboard(PractitionerSelectedUID, personIsPractitioner)
 
     def getNamefromUID(self, userId):
         # self.login = login
@@ -218,19 +260,20 @@ class UserList(QDialog):
         print(accessingPerson)
         return (accessingPersonName)
 
-    def loadUserDashboard(self, userLocalId, isPractitioner):
-        goToUserDashboard = UserDashboard(userLocalId, isPractitioner)
+    def loadUserDashboard(self, userLocalId, isPractitioner ):
+        goToUserDashboard = UserDashboard(userLocalId, self.userId)
         widget.addWidget(goToUserDashboard)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 class UserDashboard(QDialog):
-    def __init__(self, userId, isPractitioner):
+    def __init__(self, userId, isPractitioner, practitionerId):
         super(UserDashboard, self).__init__()
         loadUi("UserDashboard.ui", self)
         self.userId = userId
         '''isPractitioner is going to be a boolean value, that can later 
         be used to determine to to exit out userDashboard to userlist'''
         self.isPractitioner = isPractitioner
+        self.practitionerId = practitionerId
         print("Verifying person is practioner: ", isPractitioner)
 
         findWhoUserIs = self.getNamefromUID(userId)
@@ -284,13 +327,74 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         self.NameDetails.setText(displayHeaderText)
 
 class NewAccountCreation(QDialog):
-    def __init__(self):
+    def __init__(self, practID):
         super(NewAccountCreation, self).__init__()
         loadUi("AdminScreen.ui", self)
-        self.SucessSubmitted.setText("Not Submitted")
-        self.SubmitButton.clicked.connect(self.submitPressed)
 
-    # once Submitted is pressed, no more editing is allowed
+
+        self.SucessSubmitted.setText("Status: Not Submitted")
+
+        # Return Button is only disabled for AdminUserCreation.py file only.
+        #self.ReturnButton.hide()
+
+        self.SubmitButton.clicked.connect(self.submitPressed)
+        self.ResetButton.clicked.connect(self.resetAllFields)
+
+        '''Testing code below'''
+        # self.SubmitButton.clicked.connect(self.NoMoreEditing)
+
+
+        '''New Code on the main.py side for compatibility of roletype'''
+        self.practID = practID
+        print("The practId is: ", practID)
+        # block users from making practitioner accounts
+        if practID is None:
+            self.TypeSelection.setDisabled(True)
+        self.ReturnButton.clicked.connect(self.FigureOutReturnScreen)
+
+
+    def FigureOutReturnScreen(self):
+        if self.practID is None:
+            self.loadLoginPage()
+        if self.practID is not None:
+            self.loadUserList()
+    def loadUserList(self):
+        goToUserList = UserList(self.practID)
+        widget.addWidget(goToUserList)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+    def loadLoginPage(self):
+        goToWelcome = WelcomeScreen()
+        widget.addWidget(goToWelcome)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+    def resetAllFields(self):
+
+        # re-enabling fields
+        self.FirstName.setReadOnly(False)
+        self.FirstName.setDisabled(False)
+        self.LastName.setReadOnly(False)
+        self.LastName.setDisabled(False)
+        self.Email.setReadOnly(False)
+        self.Email.setDisabled(False)
+        self.Password.setReadOnly(False)
+        self.Password.setDisabled(False)
+        # self.PasswordDouble.setReadOnly(False)
+        # self.PasswordDouble.setEnabled(True)
+        self.DOB.setEnabled(True)
+        self.TypeSelection.setEnabled(True)
+        self.Description.setDisabled(False)
+        self.Description.setReadOnly(False)
+
+        # clearing out fields
+        self.FirstName.clear()
+        self.LastName.clear()
+        self.Description.clear()
+        self.Password.clear()
+        self.Email.clear()
+        # self.PasswordDouble.clear()
+        # self.PasswordChecker.setText("")
+        print("all fields have been cleared and enabled")
+        return
+
     def NoMoreEditing(self):
         listToDisable = ['FirstName', 'LastName', 'Email', 'Password', 'PasswordDouble', 'Description']
         '''
@@ -308,38 +412,46 @@ class NewAccountCreation(QDialog):
         self.Email.setDisabled(True)
         self.Password.setReadOnly(True)
         self.Password.setDisabled(True)
-        self.PasswordDouble.setReadOnly(True)
-        self.PasswordDouble.setDisabled(True)
-
-
+        # self.PasswordDouble.setReadOnly(True)
+        # self.PasswordDouble.setDisabled(True)
+        self.DOB.setDisabled(True)
+        self.TypeSelection.setDisabled(True)
+        self.Description.setDisabled(True)
+        self.Description.setReadOnly(True)
         print("disable User input sucess")
         return
 
     def submitPressed(self):
+        self.SucessSubmitted.setText("Status: Loading")
         firstName = self.FirstName.text()
         lastName = self.LastName.text()
         email = self.Email.text()
         password = self.Password.text()
-        passwordCheck = self.PasswordDouble.text()
-        description = self.Description.text()
+        # confirmPassword = self.PasswordDouble.text()
+        description = self.Description.toPlainText()
+        print(description)
         roleType = self.TypeSelection.currentText()
         dob = self.DOB.selectedDate().toString()
 
         self.createFirebaseAuthAccount(email, password)
 
-        # email, password, firstName, lastName, description, roleType, dob
         self.fillInLoginInfoToFirebase(email, password, firstName, lastName, description, roleType, dob)
 
         print(lastName + ", " + firstName)
         print("The Selected Role is: ", roleType)
         print("The Selected DOB is: ", dob)
         print("Submitted Pressed")
-        self.sendUserNotification(email, password)
+
+        #########################################
+        # UNCOMMENT WHEN DONE TESTING
+        # self.sendUserNotification(email, password)
+
         print("Notification Sent, Everything completed.")
-        self.SucessSubmitted.setText("Submitted :)")
+        self.SucessSubmitted.setText("Status: Submitted :)")
         self.NoMoreEditing()
 
-    # Setup email and password for firebase Auth
+        # Setup email and password for firebase Auth
+
     def createFirebaseAuthAccount(self, email, password):
         try:
             user = auth.create_user_with_email_and_password(email, password)
@@ -361,29 +473,33 @@ class NewAccountCreation(QDialog):
 
         # setup detail for loginInfo Table
         loginInfo = "loginInfo"
-        #templateForName = "Name"
+        # templateForName = "Name"
         CreateName = (firstName + " " + lastName)
-        #db.child(loginInfo).child(templateForName).set(CreateName)
+        # db.child(loginInfo).child(templateForName).set(CreateName)
         db.child(loginInfo).child(CreateName).child("UID").set(userLocalId)
         db.child(loginInfo).child(CreateName).child("role").set(roleType)
         db.child(loginInfo).child(CreateName).child("DOB").set(dob)
         db.child(loginInfo).child(CreateName).child("Description").set(description)
 
-        #setup base structure for collecteddata table
+        # setup base structure for collecteddata table
         collectedData = "collectedData"
         creationDate = datetime.today().strftime('%Y-%m-%d')
         creationTime = datetime.today().strftime('%H:%M:%S')
-        db.child(collectedData).child(userLocalId).child("heartRate").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("heartRate").child(creationDate).child(creationTime).set(
+            "null")
         db.child(collectedData).child(userLocalId).child("jerk").child(creationDate).child(creationTime).set("null")
         db.child(collectedData).child(userLocalId).child("seat").child(creationDate).child(creationTime).set("null")
-        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set("null")
-        db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set(
+            "null")
+        db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(
+            creationTime).set("null")
 
-        print("sucessful built of login info and collected data time, sending of to email notification function")
+        print("sucessfully built of login info and collected data time, sending of to email notification function")
 
         return
 
-    # Email Notification to user when account is created.
+        # Email Notification to user when account is created.
+
     def sendUserNotification(self, email, password):
         # email notification details
         rollSmartEmail = 'sysc4907rollsmart@gmail.com'
@@ -393,15 +509,15 @@ class NewAccountCreation(QDialog):
 
         emailSubject = 'Welcome to RollSmart!'
         emailBody = """
-        Welcome to RollSmart!
+                Welcome to RollSmart!
 
-        Your Username is: """ + receivingEmail + """
-        Your Password is: """ + password + """
+                Your Username is: """ + receivingEmail + """
+                Your Password is: """ + password + """
 
-        If you have any issues, please contact your local doctors office.
+                If you have any issues, please contact your local doctors office.
 
-        -RollSmart
-        """
+                -RollSmart
+                """
         # Set Elements of email
         emailObject = EmailMessage()
         emailObject['From'] = rollSmartEmail
@@ -418,9 +534,8 @@ class NewAccountCreation(QDialog):
             smtp.sendmail(rollSmartEmail, receivingEmail, emailObject.as_string())
         print("Email Sent")
 
-        #SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
+        # SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
         return
-
 
 
 app = QApplication(sys.argv)

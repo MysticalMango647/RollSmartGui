@@ -174,8 +174,33 @@ color: rgb(255,0,0);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="createNewAccountButton">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>630</y>
+      <width>381</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 30pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Create New Account</string>
+    </property>
+   </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>EmailEntry</tabstop>
+  <tabstop>PasswordEntry</tabstop>
+  <tabstop>signInButton</tabstop>
+  <tabstop>createNewAccountButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

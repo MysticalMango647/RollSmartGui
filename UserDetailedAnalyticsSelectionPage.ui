@@ -509,6 +509,20 @@ color: rgb(255,255,255);</string>
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>StartDate</tabstop>
+  <tabstop>EndDate</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButton_7</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>pushButton_8</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_6</tabstop>
+  <tabstop>pushButton_9</tabstop>
+  <tabstop>Submit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

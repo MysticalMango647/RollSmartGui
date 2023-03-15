@@ -26,74 +26,6 @@
     <string notr="true">QWidget#widget{
 background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(170, 255, 255, 255), stop:0.0113636 rgba(167, 199, 231, 255), stop:1 rgba(0, 128, 128, 255))}</string>
    </property>
-   <widget class="QPushButton" name="SubmitButton">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>730</y>
-      <width>221</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 20px;
-font: 30pt &quot;Corbel&quot;;
-color: rgb(255,255,255);
-background-color: rgb(147, 136, 162)</string>
-    </property>
-    <property name="text">
-     <string>Submit</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="WelcomeName">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1201</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Corbel</family>
-      <pointsize>30</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>true</underline>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 30pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>New Account Creation</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>70</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>First Name:</string>
-    </property>
-   </widget>
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
@@ -120,258 +52,12 @@ color: rgb(255,255,255);</string>
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLineEdit" name="FirstName">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>60</y>
-      <width>381</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
-font: 20pt &quot;Corbel&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>70</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Last Name:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="LastName">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>60</y>
-      <width>421</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
-font: 20pt &quot;Corbel&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Email">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>110</y>
-      <width>971</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
-font: 20pt &quot;Corbel&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Email:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>170</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Password:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Password">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>160</y>
-      <width>381</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
-font: 20pt &quot;Corbel&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>530</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Description:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Description">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>570</y>
-      <width>1161</width>
-      <height>151</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
-font: 20pt &quot;Corbel&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>170</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Confirm Pass:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="PasswordDouble">
-    <property name="geometry">
-     <rect>
-      <x>780</x>
-      <y>160</y>
-      <width>381</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0,0,0,0);
-font: 20pt &quot;Corbel&quot;;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>220</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Date of Birth:</string>
-    </property>
-   </widget>
-   <widget class="QCalendarWidget" name="DOB">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>260</y>
-      <width>551</width>
-      <height>261</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>220</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Type of User:</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="TypeSelection">
-    <property name="geometry">
-     <rect>
-      <x>780</x>
-      <y>220</y>
-      <width>381</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-color: black;
-text-decoration: underline;
-</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>User</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Practitioner</string>
-     </property>
-    </item>
-   </widget>
    <widget class="QLabel" name="SucessSubmitted">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>40</x>
       <y>730</y>
-      <width>411</width>
+      <width>931</width>
       <height>41</height>
      </rect>
     </property>
@@ -384,6 +70,9 @@ text-decoration: underline;
       <bold>false</bold>
      </font>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">font: 20pt &quot;Corbel&quot;;
 color: black;</string>
@@ -391,9 +80,365 @@ color: black;</string>
     <property name="text">
      <string/>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>90</y>
+      <width>1131</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+           </property>
+           <property name="text">
+            <string>First Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="FirstName">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0,0,0,0);
+font: 20pt &quot;Corbel&quot;;</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="2">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="styleSheet">
+            <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+           </property>
+           <property name="text">
+            <string>Last Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="LastName">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgba(0,0,0,0);
+font: 20pt &quot;Corbel&quot;;</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>150</y>
+      <width>1131</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Description:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="Description">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(0,0,0,0);
+font: 20pt &quot;Corbel&quot;;
+</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string>Date of Birth:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCalendarWidget" name="DOB"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>450</y>
+      <width>1131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Email:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="Email">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0,0,0,0);
+font: 20pt &quot;Corbel&quot;;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>0</y>
+      <width>440</width>
+      <height>83</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="QLabel" name="WelcomeName">
+       <property name="font">
+        <font>
+         <family>Corbel</family>
+         <pointsize>30</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+         <underline>true</underline>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 30pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>New Account Creation</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;Corbel&quot;;
+
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Please fill out of all the following information below</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="ReturnButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 30pt;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>&lt;-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ResetButton">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>10</y>
+      <width>176</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 30pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Reset</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="SubmitButton">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>720</y>
+      <width>181</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 30pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Submit</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>510</y>
+      <width>561</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout_4">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Password:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="Password">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0,0,0,0);
+font: 20pt &quot;Corbel&quot;;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>510</y>
+      <width>564</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout_5">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="styleSheet">
+        <string notr="true">font: 20pt &quot;Corbel&quot;;
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Type of Account:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="TypeSelection">
+       <property name="styleSheet">
+        <string notr="true">font: 20pt &quot;Corbel&quot;;
+color: black;
+
+</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>User</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Practitioner</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>FirstName</tabstop>
+  <tabstop>LastName</tabstop>
+  <tabstop>DOB</tabstop>
+  <tabstop>Description</tabstop>
+  <tabstop>Email</tabstop>
+  <tabstop>Password</tabstop>
+  <tabstop>TypeSelection</tabstop>
+  <tabstop>SubmitButton</tabstop>
+  <tabstop>ResetButton</tabstop>
+  <tabstop>ReturnButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

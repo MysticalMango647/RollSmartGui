@@ -36,10 +36,49 @@ class AdminScreen(QDialog):
     def __init__(self):
         super(AdminScreen, self).__init__()
         loadUi("AdminScreen.ui", self)
-        self.SucessSubmitted.setText("Not Submitted")
-        self.SubmitButton.clicked.connect(self.submitPressed)
+        self.SucessSubmitted.setText("Status: Not Submitted")
 
-    # once Submitted is pressed, no more editing is allowed
+        #Return Button is only disabled for AdminUserCreation.py file only.
+        self.ReturnButton.hide()
+
+        self.SubmitButton.clicked.connect(self.submitPressed)
+        self.ResetButton.clicked.connect(self.resetAllFields)
+
+        '''Testing code below'''
+        #self.SubmitButton.clicked.connect(self.NoMoreEditing)
+
+    def resetAllFields(self):
+
+        #re-enabling fields
+        self.FirstName.setReadOnly(False)
+        self.FirstName.setDisabled(False)
+        self.LastName.setReadOnly(False)
+        self.LastName.setDisabled(False)
+        self.Email.setReadOnly(False)
+        self.Email.setDisabled(False)
+        self.Password.setReadOnly(False)
+        self.Password.setDisabled(False)
+        #self.PasswordDouble.setReadOnly(False)
+        #self.PasswordDouble.setEnabled(True)
+        self.DOB.setEnabled(True)
+        self.TypeSelection.setEnabled(True)
+        self.Description.setDisabled(False)
+        self.Description.setReadOnly(False)
+
+        #clearing out fields
+        self.FirstName.clear()
+        self.LastName.clear()
+        self.Description.clear()
+        self.Password.clear()
+        self.Email.clear()
+        #self.PasswordDouble.clear()
+        #self.PasswordChecker.setText("")
+        print("all fields have been cleared and enabled")
+        return
+
+
+
+
     def NoMoreEditing(self):
         listToDisable = ['FirstName', 'LastName', 'Email', 'Password', 'PasswordDouble', 'Description']
         '''
@@ -57,38 +96,47 @@ class AdminScreen(QDialog):
         self.Email.setDisabled(True)
         self.Password.setReadOnly(True)
         self.Password.setDisabled(True)
-        self.PasswordDouble.setReadOnly(True)
-        self.PasswordDouble.setDisabled(True)
-
-
+        #self.PasswordDouble.setReadOnly(True)
+        #self.PasswordDouble.setDisabled(True)
+        self.DOB.setDisabled(True)
+        self.TypeSelection.setDisabled(True)
+        self.Description.setDisabled(True)
+        self.Description.setReadOnly(True)
         print("disable User input sucess")
         return
 
     def submitPressed(self):
+
         firstName = self.FirstName.text()
         lastName = self.LastName.text()
         email = self.Email.text()
         password = self.Password.text()
-        passwordCheck = self.PasswordDouble.text()
-        description = self.Description.text()
+        #confirmPassword = self.PasswordDouble.text()
+        description = self.Description.toPlainText()
+        print(description)
         roleType = self.TypeSelection.currentText()
         dob = self.DOB.selectedDate().toString()
 
+
         self.createFirebaseAuthAccount(email, password)
 
-        # email, password, firstName, lastName, description, roleType, dob
         self.fillInLoginInfoToFirebase(email, password, firstName, lastName, description, roleType, dob)
 
         print(lastName + ", " + firstName)
         print("The Selected Role is: ", roleType)
         print("The Selected DOB is: ", dob)
         print("Submitted Pressed")
-        self.sendUserNotification(email, password)
+
+        #########################################
+        #UNCOMMENT WHEN DONE TESTING
+        #self.sendUserNotification(email, password)
+
+
         print("Notification Sent, Everything completed.")
         self.SucessSubmitted.setText("Submitted :)")
         self.NoMoreEditing()
 
-    # Setup email and password for firebase Auth
+        # Setup email and password for firebase Auth
     def createFirebaseAuthAccount(self, email, password):
         try:
             user = auth.create_user_with_email_and_password(email, password)
@@ -110,25 +158,28 @@ class AdminScreen(QDialog):
 
         # setup detail for loginInfo Table
         loginInfo = "loginInfo"
-        #templateForName = "Name"
+        # templateForName = "Name"
         CreateName = (firstName + " " + lastName)
-        #db.child(loginInfo).child(templateForName).set(CreateName)
+        # db.child(loginInfo).child(templateForName).set(CreateName)
         db.child(loginInfo).child(CreateName).child("UID").set(userLocalId)
         db.child(loginInfo).child(CreateName).child("role").set(roleType)
         db.child(loginInfo).child(CreateName).child("DOB").set(dob)
         db.child(loginInfo).child(CreateName).child("Description").set(description)
 
-        #setup base structure for collecteddata table
+        # setup base structure for collecteddata table
         collectedData = "collectedData"
         creationDate = datetime.today().strftime('%Y-%m-%d')
         creationTime = datetime.today().strftime('%H:%M:%S')
-        db.child(collectedData).child(userLocalId).child("heartRate").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("heartRate").child(creationDate).child(creationTime).set(
+            "null")
         db.child(collectedData).child(userLocalId).child("jerk").child(creationDate).child(creationTime).set("null")
         db.child(collectedData).child(userLocalId).child("seat").child(creationDate).child(creationTime).set("null")
-        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set("null")
-        db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set(
+            "null")
+        db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(
+            creationTime).set("null")
 
-        print("sucessful built of login info and collected data time, sending of to email notification function")
+        print("sucessfully built of login info and collected data time, sending of to email notification function")
 
         return
 
@@ -167,7 +218,7 @@ class AdminScreen(QDialog):
             smtp.sendmail(rollSmartEmail, receivingEmail, emailObject.as_string())
         print("Email Sent")
 
-        #SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
+        # SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
         return
 
 
