@@ -122,24 +122,87 @@ class WelcomeScreen(QDialog):
 
 
 class UserList(QDialog):
-    def __init__(self, userId):
+    def __init__(self, pracID):
         super(UserList, self).__init__()
         loadUi("UserList.ui", self)
-        self.userId = userId
+        #storing pracID so can be used to get name and backtrack to this page
+        self.pracID = pracID
+        self.UserUIDList = []
+        self.localUserID = None
+
         global UserUIDtoView
-        findWhoUserIs = self.getNamefromUID(userId)
-        WelcomeString = str("Welcome, Dr. " + findWhoUserIs)
+
+        findWhoPracIs = self.getNamefromUID(pracID)
+        WelcomeString = str("Welcome, Dr. " + findWhoPracIs)
+
         self.WelcomeName.setText(WelcomeString)
-        self.UserListTable.setColumnWidth(0, 400)
-        self.UserListTable.setColumnWidth(1, 300)
-        self.UserListTable.setColumnWidth(2, 280)
+        self.UserListTable.setColumnWidth(0, 250)
+        self.UserListTable.setColumnWidth(1, 80)
+        self.UserListTable.setColumnWidth(2, 440)
+        self.UserListTable.setColumnWidth(3, 200)
+
+        #populate table with data
         self.loadUserTableInfo()
 
-        self.PracCreateNewUser.clicked.connect(self.loadNewAccountCreationPage)
+        #Line below makes it so the practitioner is not able to edit the boxes
+        self.UserListTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
+        #newacc and signout button page redirect
+        self.PracCreateNewUser.clicked.connect(self.loadNewAccountCreationPage)
+        self.SignOut.clicked.connect(self.loadLoginPage)
+
+        #submit button action clause
+        self.Submit.clicked.connect(self.submitButtonPressed)
+        self.UserListTable.selectionModel().selectionChanged.connect(self.selectionMade)
+
+
+    def submitButtonPressed(self):
+        validSelection = False
+        RowBoxIndex = int(self.RowCounterBox.currentText()) - 1
+        self.UserListTable.selectRow(RowBoxIndex)
+        self.localUserID = self.UserUIDList[int(self.RowCounterBox.currentText()) - 1]
+        if (int(self.RowCounterBox.currentText()))!= 0:
+            print("in submitbuttonpressed function")
+            self.loadUserDashboard()
+        else:
+            print("current rowcounterbox is 0, in the if statement. Proof ->", int(self.RowCounterBox.currentText()))
+            self.InvalidSelectionMade.setText("Select a data on table or choose from row drop down")
+
+    def selectionMade(self, selected, deselected):
+        for ix in selected.indexes():
+            print('Selected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
+            #combobox row counter updating
+            self.RowCounterBox.setCurrentIndex(ix.row()+1)
+            #setting local user id to view for when we need it for the next page
+            self.localUserID = self.UserUIDList[int(self.RowCounterBox.currentText())-1]
+            print(self.localUserID)
+            self.verifyUserSelectionDoneProperly(ix.row(), ix.column())
+        # function src: https://learndataanalysis.org/source-code-how-to-detect-selected-and-deselected-cells-on-a-qtablewidget-pyqt5-tutorial/
+
+    def verifyUserSelectionDoneProperly(self, row, col):
+        # print("verifying user chose proper column")
+        approvedCol = [0,1,2,3]
+        print(self.RowCounterBox.currentText(), "<- current rowcounterbox index")
+        if (col not in approvedCol or int(self.RowCounterBox.currentText()) == 0):
+            print("current rowcounterbox is 0, in the if statement")
+            #self.InvalidSelectionMade.setText("Select a data on table or choose from row drop down")
+
+        else:
+            self.InvalidSelectionMade.setText("")
+            PractitionerSelectedUID = self.UserListTable.item(row, col).text()
+            print("The selected data is: ", self.UserListTable.item(row, col).text())
+            personIsPractitioner = True
+            #self.submitButtonPressed()
+            self.Submit.clicked.connect(self.submitButtonPressed)
+            #self.Submit.clicked.connect(self.loadUserDashboard)
+            ###################################
+    def loadLoginPage(self):
+        goToWelcome = WelcomeScreen()
+        widget.addWidget(goToWelcome)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def loadNewAccountCreationPage(self):
-        practId = self.userId
+        practId = self.pracID
         goToNewAccountCreation = NewAccountCreation(practId)
         widget.addWidget(goToNewAccountCreation)
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -149,10 +212,10 @@ class UserList(QDialog):
         elementRow = 0
         numberofUsers = len(list(db.child("loginInfo").order_by_child("role").equal_to("User").get().val().keys()))
         # print(numberofUsers)
+
         self.UserListTable.setRowCount(numberofUsers)
-        # getPractitionersUserSelection =
-        self.UserListTable.selectionModel().selectionChanged.connect(self.selectionMade)
-        comboboxList=[]
+
+        comboboxList=["0"]
 
         #NUmber on combo box in incremented by 1 to match what UserListTable displays
         for i in range(numberofUsers):
@@ -167,22 +230,32 @@ class UserList(QDialog):
             selectedUID = val.get('UID')
             # Only display Users, no practitioners in the list of users
             if (val.get('role') != "Practitioner"):
-                self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
-                self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
-                dobYearString, mm, dd, yy = (val.get('DOB')).split(" ", 3)
 
+                #Storing UID in a list for retrival to load next page accordingly
+                UniqueID = val.get('UID')
+                self.UserUIDList.append(UniqueID)
+
+                #Col 1: Name
+                self.UserListTable.setItem(elementRow, 0, QtWidgets.QTableWidgetItem(str(key)))
+                #Col 2: Age
+                dobYearString, mm, dd, yy = (val.get('DOB')).split(" ", 3)
                 months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
                 getMonthinNum = months.index(mm.lower())+1
-                print(getMonthinNum+1)
-
                 today = date.today()
                 year_diff = today.year - int(yy)
                 getMMandDDdifference = ((today.month, today.day) < (int(getMonthinNum), int(dd)))
                 age = year_diff - getMMandDDdifference
                 #logic from https://pyshark.com/build-age-calculator-in-python/
+                self.UserListTable.setItem(elementRow, 1, QtWidgets.QTableWidgetItem(str(age)))
 
-                self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(str(age)))
+                # Col 3: Description
+                self.UserListTable.setItem(elementRow, 2, QtWidgets.QTableWidgetItem(str(val.get('Description'))))
+
+                # Col 4: DOB
+                self.UserListTable.setItem(elementRow, 3, QtWidgets.QTableWidgetItem(str(val.get('DOB'))))
+
                 elementRow = elementRow + 1
+
 
                 '''Was trying to add radio button here instead, but it wasn't working out'''
                 # userSelectRadioButton = QtWidgets.QRadioButton(str(val.get('UID')))
@@ -199,33 +272,11 @@ class UserList(QDialog):
                 
                 #src: https://stackoverflow.com/questions/39511181/python-add-checkbox-to-every-row-in-qtablewidget
                 '''
+        #print(self.UserUIDList, "<- UID of all users that are dispayed on the userlist table, The length is ->", len(self.UserUIDList))
+
         return
 
-    def selectionMade(self, selected, deselected):
-        for ix in selected.indexes():
-            print('Selected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
-            self.RowCounterBox.setCurrentIndex(ix.row())
-            self.verifyUserSelectionDoneProperly(ix.row(), ix.column())
-        # for ix in deselected.indexes():
-        #    print('Deselected Cell Location Row: {0}, Column: {1}'.format(ix.row(), ix.column()))
-        # function src: https://learndataanalysis.org/source-code-how-to-detect-selected-and-deselected-cells-on-a-qtablewidget-pyqt5-tutorial/
 
-    def verifyUserSelectionDoneProperly(self, row, col):
-        # print("verifying user chose proper column")
-        approvedCol = [0,1,2]
-        if (col not in approvedCol):
-            self.InvalidSelectionMade.setText("Please Select only one user from the third column only")
-
-        else:
-            self.InvalidSelectionMade.setText("")
-            PractitionerSelectedUID = self.UserListTable.item(row, col).text()
-            print("The selected UID is: ", self.UserListTable.item(row, col).text())
-            personIsPractitioner = True
-
-            ###################################
-            #Uncomment Below to load next screen
-
-            #self.loadUserDashboard(PractitionerSelectedUID, personIsPractitioner)
 
     def getNamefromUID(self, userId):
         # self.login = login
@@ -244,15 +295,13 @@ class UserList(QDialog):
 
             if userInfo['UID'] == userLocalId:
                 print(userInfo)
-
             else:
                 pass
-
-
         allLoginInfo = db.child("loginInfo").get()
         allLoginInfoWithVal = allLoginInfo.val()
         print(allLoginInfoWithVal)
         '''
+
         print("in getNamefromUID fucntion")
         person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
         accessingPerson = list(person)
@@ -260,21 +309,20 @@ class UserList(QDialog):
         print(accessingPerson)
         return (accessingPersonName)
 
-    def loadUserDashboard(self, userLocalId, isPractitioner ):
-        goToUserDashboard = UserDashboard(userLocalId, self.userId)
+    def loadUserDashboard(self):
+        goToUserDashboard = UserDashboard(self.localUserID, self.pracID)
         widget.addWidget(goToUserDashboard)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 class UserDashboard(QDialog):
-    def __init__(self, userId, isPractitioner, practitionerId):
+    def __init__(self, userId, practitionerId):
         super(UserDashboard, self).__init__()
         loadUi("UserDashboard.ui", self)
         self.userId = userId
         '''isPractitioner is going to be a boolean value, that can later 
         be used to determine to to exit out userDashboard to userlist'''
-        self.isPractitioner = isPractitioner
+        #self.isPractitioner = isPractitioner
         self.practitionerId = practitionerId
-        print("Verifying person is practioner: ", isPractitioner)
 
         findWhoUserIs = self.getNamefromUID(userId)
         self.userName = findWhoUserIs

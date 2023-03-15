@@ -54,23 +54,6 @@ color: rgb(255,255,255);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>931</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 22pt &quot;Corbel&quot;;
-color: rgb(255,255,255);</string>
-    </property>
-    <property name="text">
-     <string>Please select either a row on table or from drop down box to view a profile</string>
-    </property>
-   </widget>
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
@@ -113,7 +96,7 @@ color: rgb(255,255,255);</string>
     </column>
     <column>
      <property name="text">
-      <string>Date of Birth</string>
+      <string>Age</string>
      </property>
      <property name="font">
       <font>
@@ -128,7 +111,22 @@ color: rgb(255,255,255);</string>
     </column>
     <column>
      <property name="text">
-      <string>Age</string>
+      <string>Description</string>
+     </property>
+     <property name="font">
+      <font>
+       <family>Corbel</family>
+       <pointsize>20</pointsize>
+       <underline>true</underline>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Date Of Birth</string>
      </property>
      <property name="font">
       <font>
@@ -145,46 +143,27 @@ color: rgb(255,255,255);</string>
    <widget class="QLabel" name="InvalidSelectionMade">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>300</x>
       <y>720</y>
-      <width>161</width>
+      <width>671</width>
       <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Corbel</family>
-      <pointsize>20</pointsize>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 20pt &quot;Corbel&quot;;
-color: rgb(255,0,0);</string>
+     <string notr="true">font: 16pt &quot;Corbel&quot;;
+color: red;</string>
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="PracCreateNewUser">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>100</y>
-      <width>241</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 20px;
-font: 20pt &quot;Corbel&quot;;
-color: rgb(255,255,255);
-background-color: rgb(147, 136, 162)</string>
-    </property>
-    <property name="text">
-     <string>Create New User</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Submit">
@@ -228,8 +207,8 @@ color: rgb(255,255,255);</string>
      <rect>
       <x>190</x>
       <y>720</y>
-      <width>61</width>
-      <height>41</height>
+      <width>81</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -237,8 +216,72 @@ color: rgb(255,255,255);</string>
 color: black;</string>
     </property>
    </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>1181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
+
+text-decoration: underline;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string>Please select either a row on table or from the drop down box to view a profile or</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="PracCreateNewUser">
+       <property name="styleSheet">
+        <string notr="true">border-radius: 20px;
+font: 20pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+       </property>
+       <property name="text">
+        <string>Create New User</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="SignOut">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>10</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 20pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Sign Out</string>
+    </property>
+   </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>UserListTable</tabstop>
+  <tabstop>RowCounterBox</tabstop>
+  <tabstop>Submit</tabstop>
+  <tabstop>PracCreateNewUser</tabstop>
+  <tabstop>SignOut</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
