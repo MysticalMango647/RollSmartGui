@@ -48,7 +48,7 @@ background-color: rgb(147, 136, 162)</string>
    <widget class="QLabel" name="WelcomeName">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>310</x>
       <y>10</y>
       <width>591</width>
       <height>61</height>
@@ -71,6 +71,9 @@ color: rgb(255,255,255);</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -432,6 +435,44 @@ color: rgb(255,255,255);</string>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ReturnButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 30pt;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>&lt;-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="SignOut">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>10</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 20px;
+font: 20pt &quot;Corbel&quot;;
+color: rgb(255,255,255);
+background-color: rgb(147, 136, 162)</string>
+    </property>
+    <property name="text">
+     <string>Sign Out</string>
     </property>
    </widget>
   </widget>

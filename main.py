@@ -52,7 +52,8 @@ class WelcomeScreen(QDialog):
         # print(gettingUserId)
         self.signInButton.clicked.connect(self.verifySignIn)
         self.createNewAccountButton.clicked.connect(self.loadNewAccountCreationPage)
-
+        self.userId = None
+        self.pracId = None
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Enter:
             self.verifySignIn()
@@ -80,8 +81,8 @@ class WelcomeScreen(QDialog):
         elif (userRole == "User"):
             # Go to UserDashboard page(for Users)
             print("role in nextscreenfunc. is user")
-            personIsPractitioner = False
-            self.loadUserDashboard(userLocalId, personIsPractitioner)
+            PracId = None
+            self.loadUserDashboard(userLocalId, PracId)
 
         else:
             print("Role is neither Prac. nor User")
@@ -92,9 +93,9 @@ class WelcomeScreen(QDialog):
         widget.addWidget(goToUserList)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def loadUserDashboard(self, userLocalId, personIsPractitioner):
+    def loadUserDashboard(self, userLocalId):
         noPracId = None
-        goToUserDashboard = UserDashboard(userLocalId, personIsPractitioner, noPracId)
+        goToUserDashboard = UserDashboard(userLocalId, noPracId)
         widget.addWidget(goToUserDashboard)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -276,8 +277,6 @@ class UserList(QDialog):
 
         return
 
-
-
     def getNamefromUID(self, userId):
         # self.login = login
         # self.db = db
@@ -315,14 +314,17 @@ class UserList(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 class UserDashboard(QDialog):
-    def __init__(self, userId, practitionerId):
+    def __init__(self, userId, pracID):
         super(UserDashboard, self).__init__()
         loadUi("UserDashboard.ui", self)
         self.userId = userId
+        self.pracID = pracID
+        print("made it back to udash")
+        print("The practId is: ", pracID)
+
         '''isPractitioner is going to be a boolean value, that can later 
         be used to determine to to exit out userDashboard to userlist'''
-        #self.isPractitioner = isPractitioner
-        self.practitionerId = practitionerId
+
 
         findWhoUserIs = self.getNamefromUID(userId)
         self.userName = findWhoUserIs
@@ -341,6 +343,22 @@ class UserDashboard(QDialog):
         # waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
         # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
+
+
+        # block users from making practitioner accounts
+        if self.pracID is None:
+            self.ReturnButton.hide()
+        self.ReturnButton.clicked.connect(self.loadUserList)
+        self.SignOut.clicked.connect(self.loadLoginPage)
+
+    def loadUserList(self):
+        goToUserList = UserList(self.pracID)
+        widget.addWidget(goToUserList)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+    def loadLoginPage(self):
+        goToWelcome = WelcomeScreen()
+        widget.addWidget(goToWelcome)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
     def getNamefromUID(self, userId):
         person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
         userNameis = list(person)
@@ -356,23 +374,39 @@ class UserDashboard(QDialog):
 
     def goToUserDetailedAnalyticsSelectionPage(self):
         # print("goToUserDetailedAnalyticsSelectionPage coming soon")qt
-        goToUserDetailedAnalyticSelectionPage = UserDetailedAnalyticsSelectionPage(self.userId, self.userName,
-                                                                                   self.isPractitioner)
-        # self.userId, "Mango Pods", self.isPractitioner
+        goToUserDetailedAnalyticSelectionPage = UserDetailedAnalyticsSelectionPage(self.userId, self.userName,self.pracID)
         widget.addWidget(goToUserDetailedAnalyticSelectionPage)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
 class UserDetailedAnalyticsSelectionPage(QDialog):
-    def __init__(self, userId, userName, isPractitioner):
+    def __init__(self, userId, userName, pracId):
         super(UserDetailedAnalyticsSelectionPage, self).__init__()
         loadUi("UserDetailedAnalyticsSelectionPage.ui", self)
-
+        print("PracId is: ", pracId, "UserId is: ", userId)
         self.userId = userId
         self.userName = userName
-        self.isPractitioner = isPractitioner
+        self.pracId = pracId
         displayHeaderText = userName + "'s Detailed Analytics Selection"
         self.NameDetails.setText(displayHeaderText)
+        loadvals = self.placeholder
+
+        self.ReturnButton.clicked.connect(loadvals)
+        self.SignOut.clicked.connect(self.loadLoginPage)
+
+    def placeholder(self):
+        print("in placehodler")
+        self.loadUserDashboard(self.userId,self.pracId)
+    def loadUserDashboard(self, UID, PID):
+        print("in the load user dashboard function")
+        toUserDashboard = UserDashboard(UID, PID)
+        widget.addWidget(toUserDashboard)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+    def loadLoginPage(self):
+        goToWelcome = WelcomeScreen()
+        widget.addWidget(goToWelcome)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
 
 class NewAccountCreation(QDialog):
     def __init__(self, practID):
@@ -492,7 +526,8 @@ class NewAccountCreation(QDialog):
 
         #########################################
         # UNCOMMENT WHEN DONE TESTING
-        # self.sendUserNotification(email, password)
+        self.sendUserNotification(email, password)
+        #########################################
 
         print("Notification Sent, Everything completed.")
         self.SucessSubmitted.setText("Status: Submitted :)")
