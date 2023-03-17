@@ -54,6 +54,8 @@ class WelcomeScreen(QDialog):
         self.createNewAccountButton.clicked.connect(self.loadNewAccountCreationPage)
         self.userId = None
         self.pracId = None
+        self.EmailEntry.clear()
+        self.PasswordEntry.clear()
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Enter:
             self.verifySignIn()
@@ -81,8 +83,8 @@ class WelcomeScreen(QDialog):
         elif (userRole == "User"):
             # Go to UserDashboard page(for Users)
             print("role in nextscreenfunc. is user")
-            PracId = None
-            self.loadUserDashboard(userLocalId, PracId)
+            
+            self.loadUserDashboard(userLocalId)
 
         else:
             print("Role is neither Prac. nor User")

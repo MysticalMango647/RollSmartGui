@@ -88,9 +88,9 @@ color: black;</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>90</y>
+      <y>150</y>
       <width>1131</width>
-      <height>51</height>
+      <height>52</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -156,9 +156,9 @@ font: 20pt &quot;Corbel&quot;;</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>150</y>
+      <y>220</y>
       <width>1131</width>
-      <height>271</height>
+      <height>287</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
@@ -212,9 +212,9 @@ color: rgb(255,255,255);</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>450</y>
+      <y>530</y>
       <width>1131</width>
-      <height>41</height>
+      <height>48</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_3">
@@ -243,10 +243,10 @@ font: 20pt &quot;Corbel&quot;;</string>
    <widget class="QWidget" name="verticalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>350</x>
       <y>0</y>
-      <width>440</width>
-      <height>83</height>
+      <width>558</width>
+      <height>103</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -353,9 +353,9 @@ background-color: rgb(147, 136, 162)</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>510</y>
+      <y>610</y>
       <width>561</width>
-      <height>41</height>
+      <height>48</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_4">
@@ -385,9 +385,9 @@ font: 20pt &quot;Corbel&quot;;</string>
     <property name="geometry">
      <rect>
       <x>600</x>
-      <y>510</y>
+      <y>610</y>
       <width>564</width>
-      <height>41</height>
+      <height>48</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_5">
