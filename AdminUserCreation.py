@@ -178,6 +178,7 @@ class AdminScreen(QDialog):
             "null")
         db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(
             creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("spo2").child(creationDate).child(creationTime).set("null")
 
         print("sucessfully built of login info and collected data time, sending of to email notification function")
 

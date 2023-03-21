@@ -83,7 +83,7 @@ class WelcomeScreen(QDialog):
         elif (userRole == "User"):
             # Go to UserDashboard page(for Users)
             print("role in nextscreenfunc. is user")
-            
+
             self.loadUserDashboard(userLocalId)
 
         else:
@@ -116,6 +116,7 @@ class WelcomeScreen(QDialog):
             person = db.child("loginInfo").order_by_child("UID").equal_to(userLocalId).get().val().keys()
             accessingPerson = list(person)
             accessingPersonIs = str(accessingPerson[0])
+            print("the accessing person is", accessingPersonIs)
             # print("in main accessing person name is: ", accessingPersonIs)
             roleOfAccessingPersonIs = db.child("loginInfo").child(accessingPersonIs).child("role").get().val()
             # print("role of: ", accessingPersonIs, "is: ", roleOfAccessingPersonIs)
@@ -574,10 +575,10 @@ class NewAccountCreation(QDialog):
             "null")
         db.child(collectedData).child(userLocalId).child("jerk").child(creationDate).child(creationTime).set("null")
         db.child(collectedData).child(userLocalId).child("seat").child(creationDate).child(creationTime).set("null")
-        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set(
-            "null")
+        db.child(collectedData).child(userLocalId).child("speed").child(creationDate).child(creationTime).set("null")
         db.child(collectedData).child(userLocalId).child("weightDistribution").child(creationDate).child(
             creationTime).set("null")
+        db.child(collectedData).child(userLocalId).child("spo2").child(creationDate).child(creationTime).set("null")
 
         print("sucessfully built of login info and collected data time, sending of to email notification function")
 
