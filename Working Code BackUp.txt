@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 # For Gui
 import sys
 
@@ -626,27 +623,27 @@ class NewAccountCreation(QDialog):
         # SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
         return
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    welcome = WelcomeScreen()
-    widget = QtWidgets.QStackedWidget()
-    widget.addWidget(welcome)
-    widget.setFixedHeight(800)
-    widget.setFixedWidth(1200)
-    widget.setWindowIcon(QIcon('projectIcon.jpg'))
-    widget.setWindowTitle("RollSmart")
-    widget.show()
-    try:
-        sys.exit(app.exec_())
-    except:
-        print("Closing Out App")
 
-    
-    '''
-    Refrences Used for this project.
-    
-    Login in Screen and General PyQt5 Walkthrough were used from 
-    https://www.youtube.com/@codefirstwithhala
-    Most concepts are derived from Hala and expanded upon to fit our usecase.
-    
-    '''
+app = QApplication(sys.argv)
+welcome = WelcomeScreen()
+widget = QtWidgets.QStackedWidget()
+widget.addWidget(welcome)
+widget.setFixedHeight(800)
+widget.setFixedWidth(1200)
+widget.setWindowIcon(QIcon('projectIcon.jpg'))
+widget.setWindowTitle("RollSmart")
+widget.show()
+try:
+    sys.exit(app.exec_())
+except:
+    print("Closing Out App")
+
+
+'''
+Refrences Used for this project.
+
+Login in Screen and General PyQt5 Walkthrough were used from 
+https://www.youtube.com/@codefirstwithhala
+Most concepts are derived from Hala and expanded upon to fit our usecase.
+
+'''
