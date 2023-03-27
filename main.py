@@ -23,7 +23,7 @@ import ssl
 import smtplib
 
 #date time
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 import keyboard
 
@@ -332,11 +332,11 @@ class UserDashboard(QDialog):
         be used to determine to to exit out userDashboard to userlist'''
 
 
-        findWhoUserIs = self.getNamefromUID(userId)
+        findWhoUserIs = self.getNamefromUID()
         self.userName = findWhoUserIs
 
         self.WelcomeName.setText(findWhoUserIs)
-        userDescription = self.getDescription(userId)
+        userDescription = self.getDescription()
         self.Description.setText(userDescription)
 
         '''Code keeps breaking upon button press, have to debug'''
@@ -345,10 +345,11 @@ class UserDashboard(QDialog):
         # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
         '''Testing Alt solutions'''
-
         # waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
         # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
+        '''Loading data from userName'''
+        #self.loadUserStats(self.userId)
 
 
         # block users from making practitioner accounts
@@ -365,18 +366,30 @@ class UserDashboard(QDialog):
         goToWelcome = WelcomeScreen()
         widget.addWidget(goToWelcome)
         widget.setCurrentIndex(widget.currentIndex() + 1)
-    def getNamefromUID(self, userId):
-        person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
+    def getNamefromUID(self):
+        person = db.child("loginInfo").order_by_child("UID").equal_to(self.userId).get().val().keys()
         userNameis = list(person)
         userNameis = userNameis[0]
         return (userNameis)
 
-    def getDescription(self, userId):
+    def getDescription(self):
         userInfo = db.child("loginInfo").get().val()
         # print(userInfo)
         for key, val in userInfo.items():
-            if val.get('UID') == userId:
+            if val.get('UID') == self.userId:
                 return (val.get('Description'))
+
+    def loadUserStats(self):
+        print(self.userId, " data being fetched and updated displayed")
+        userStats = db.child("collectedData").child(self.userId).get().val()
+        #print(userStats, " data that collected from the user.")
+
+
+        for key, val in userStats.items():
+            print(key.get(''), "key's of the choosen user are")
+            #if val.get('') == date.today() - timedelta(days=1):
+            #    return (val.get('Description'))
+
 
     def goToUserDetailedAnalyticsSelectionPage(self):
         # print("goToUserDetailedAnalyticsSelectionPage coming soon")qt
@@ -641,7 +654,7 @@ if __name__ == "__main__":
     except:
         print("Closing Out App")
 
-    
+
     '''
     Refrences Used for this project.
     
