@@ -349,7 +349,7 @@ class UserDashboard(QDialog):
         # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
         '''Loading data from userName'''
-        #self.loadUserStats(self.userId)
+        self.loadUserStats()
 
 
         # block users from making practitioner accounts
@@ -380,16 +380,88 @@ class UserDashboard(QDialog):
                 return (val.get('Description'))
 
     def loadUserStats(self):
-        print(self.userId, " data being fetched and updated displayed")
-        userStats = db.child("collectedData").child(self.userId).get().val()
-        #print(userStats, " data that collected from the user.")
+        print(self.userId, "<- data being fetched and updated displayed")
 
+        '''uncomment one line below for real code'''
+        # collectedData = db.child("collectedData").child(self.userId).get().val()
+        '''Below if statement, is just for test demo code, DELETE if statement below and uncomment one above FOR REAL FUNCTIONALITY'''
+        collectedData = db.child("collectedData").child("4nIlD4s8Jdc2Uoa1q0DeONmmisH2").get().val()
 
-        for key, val in userStats.items():
-            print(key.get(''), "key's of the choosen user are")
-            #if val.get('') == date.today() - timedelta(days=1):
-            #    return (val.get('Description'))
+        yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+        listofSensorData = ['heartRate', 'jerk', 'seat', 'speed', 'spo2', 'weightDistribution']
+        dailySummary24hrResult = []
 
+        tempDate = '2023-03-21'
+        sensorListCounter = 0
+
+        dateFound = False
+
+        for items in listofSensorData:
+            print(items, "<- name of the key")
+            print(list(collectedData.keys())[sensorListCounter], "<- name of the key in db")
+            # print(collectedData[items])
+            for dates in collectedData[items]:
+                # print(dates, "<- dates in db")
+                '''uncomment one line below for real code'''
+                # if (dates == yesterdayIs):
+                '''Below if statement, is just for test demo code, DELETE if statement below and uncomment one above FOR REAL FUNCTIONALITY'''
+                if (dates == tempDate):
+                    dateFound = True
+                    print(dates, "<- date caught")
+                    sensorValueCounter = 0
+                    sensorValueSum = 0
+
+                    for key, val in collectedData[items][dates].items():
+                        print(key, "<- time caught")
+                        print(val, "<- data is")
+                        if val == 'null':
+                            continue
+                        else:
+                            sensorValueCounter += 1
+                        # if condition for time
+                        if items == listofSensorData[1]:
+                            sensorValueSum += val[0]
+                        else:
+                            sensorValueSum += val
+
+            if dateFound:
+                print(sensorValueCounter, "<- sensorValueCounter is")
+                print(sensorValueSum, "<- sensorValueSum is")
+                dailySummary24hrResult.append(sensorValueSum / sensorValueCounter)
+
+            sensorListCounter += 1
+
+        if (len(dailySummary24hrResult) == 0):
+            print('no data, on the selected data')
+            dailySummary24hrResult = [0, 0, 0, 0, 0, 0]
+
+        print(dailySummary24hrResult)
+
+        print('sensors data avaliable')
+        print(yesterday, '<- yesterday would be')
+
+        dailySummary24hrResultRounded = []
+        for i in range (len(dailySummary24hrResult)):
+            dailySummary24hrResultRounded.append((round(dailySummary24hrResult[i], 2)))
+
+        print(dailySummary24hrResultRounded, 'dailysummary rounded value')
+
+        GUISensorName = ['HR', 'SR', 'SF', 'SD', 'SP', 'HF']
+        print(dailySummary24hrResult[0], '<- test results of 24 sum of 1st element is ')
+
+        '''
+        #Code breaks when i run this, just manually uploading for individual summary set
+        for i in range(len(GUISensorName)):
+            self.GUISensorName[i].setText(str(dailySummary24hrResultRounded[i]))
+        '''
+        self.HR.setText(str(dailySummary24hrResultRounded[0]))
+        self.SR.setText(str(dailySummary24hrResultRounded[1]))
+        self.SF.setText(str(dailySummary24hrResultRounded[2]))
+        self.SD.setText(str(dailySummary24hrResultRounded[3]))
+        self.SP.setText(str(dailySummary24hrResultRounded[4]))
+        self.HF.setText(str(dailySummary24hrResultRounded[5]))
+
+        return
 
     def goToUserDetailedAnalyticsSelectionPage(self):
         # print("goToUserDetailedAnalyticsSelectionPage coming soon")qt

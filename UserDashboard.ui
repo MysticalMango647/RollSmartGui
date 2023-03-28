@@ -157,14 +157,13 @@ color: rgb(255,255,255);</string>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="6" column="1">
-      <widget class="QLabel" name="TS">
+      <widget class="QLabel" name="SP">
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>TS</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -172,14 +171,13 @@ color: rgb(255,255,255);</string>
       </widget>
      </item>
      <item row="6" column="2">
-      <widget class="QLabel" name="AU">
+      <widget class="QLabel" name="HF">
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>AS</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -193,22 +191,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string>Handle Pref. Ratio</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="DT">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-       </property>
-       <property name="text">
-        <string>DT</string>
+        <string>Seated Force</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -216,14 +199,13 @@ color: rgb(255,255,255);</string>
       </widget>
      </item>
      <item row="6" column="0">
-      <widget class="QLabel" name="TT">
+      <widget class="QLabel" name="SD">
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>TT</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -244,30 +226,14 @@ color: rgb(255,255,255);</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="HR">
-       <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
-color: rgb(255,255,255);</string>
-       </property>
-       <property name="text">
-        <string>HR</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="2">
-      <widget class="QLabel" name="HP">
+      <widget class="QLabel" name="SF">
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-text-decoration: underline;
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>HP</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -281,7 +247,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string>Total Time of Travel</string>
+        <string>Speed</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -295,7 +261,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string>Avg. Heart Rate</string>
+        <string>Smoothness of Rollator (Jerk Sense)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -309,7 +275,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string># of Times Used While Seated</string>
+        <string>SpO2</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -323,7 +289,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string>Avg. Time Use (IMU Based)</string>
+        <string>Handle Bar Force</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -333,12 +299,12 @@ color: rgb(255,255,255);</string>
      <item row="0" column="0">
       <widget class="QLabel" name="dailysummarytext">
        <property name="styleSheet">
-        <string notr="true">font:  20pt &quot;Corbel&quot;;
+        <string notr="true">font:  22pt &quot;Corbel&quot;;
 text-decoration: underline;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>24 Hour Summary</string>
+        <string>24 Hour Average Summary</string>
        </property>
       </widget>
      </item>
@@ -348,7 +314,7 @@ color: rgb(255,255,255);</string>
         <string notr="true">font: 16pt &quot;Corbel&quot;;</string>
        </property>
        <property name="text">
-        <string>Distanced Travelled</string>
+        <string>Heart Rate</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -380,6 +346,34 @@ color: rgb(255,255,255);</string>
       <widget class="Line" name="line_12">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="SR">
+       <property name="styleSheet">
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="HR">
+       <property name="styleSheet">
+        <string notr="true">font: 22pt &quot;Corbel&quot;;
+color: rgb(255,255,255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>

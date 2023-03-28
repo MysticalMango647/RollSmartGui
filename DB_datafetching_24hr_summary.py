@@ -18,39 +18,60 @@ db = firebase.database()
 
 
 collectedData = db.child("collectedData").child("4nIlD4s8Jdc2Uoa1q0DeONmmisH2").get().val()
-#print(collectedData)
-yesterday = (date.today() - timedelta(days=6))
-yesterdayIs = yesterday.strftime('%Y-%m-%d')
+
+yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
 listofSensorData = ['heartRate', 'jerk', 'seat', 'speed', 'spo2','weightDistribution']
-dailySummary24hr = []
+dailySummary24hrResult = []
+
+tempDate = '2023-03-21'
+sensorListCounter = 0
+
+dateFound = False
+
 for items in listofSensorData:
     print(items, "<- name of the key")
+    print(list(collectedData.keys())[sensorListCounter], "<- name of the key in db")
     #print(collectedData[items])
     for dates in collectedData[items]:
         #print(dates, "<- dates in db")
-        if (dates == yesterdayIs):
+        '''uncomment one line below for real code'''
+        #if (dates == yesterdayIs):
+        '''Below if statement, is just for test demo code, DELETE if statement below and uncomment one above FOR REAL FUNCTIONALITY'''
+        if (dates == tempDate):
+            dateFound=True
             print(dates, "<- date caught")
             sensorValueCounter = 0
             sensorValueSum = 0
-            '''
+
             for key, val in collectedData[items][dates].items():
                 print(key, "<- time caught")
                 print(val, "<- data is")
-                sensorValueCounter += 1
-                sensorValueSum = sensorValueSum + int(val)'''
-        else:
-            print("no data collected from yesterdayIs")
-    print(sensorValueCounter, "<- sensorValueCounter is")
-    print(sensorValueSum, "<- sensorValueSum is")
-    #dailySummary24hr.append(sensorValueSum/sensorValueCounter)
+                if val == 'null':
+                    continue
+                else:
+                    sensorValueCounter += 1
+                #if condition for time
+                if items == listofSensorData[1]:
+                    sensorValueSum += val[0]
+                else:
+                    sensorValueSum += val
 
-print(yesterday.strftime('%Y-%m-%d'))
+    if dateFound:
+        print(sensorValueCounter, "<- sensorValueCounter is")
+        print(sensorValueSum, "<- sensorValueSum is")
+        dailySummary24hrResult.append(sensorValueSum/sensorValueCounter)
+
+    sensorListCounter += 1
+
+if (len(dailySummary24hrResult)==0):
+    print('no data, on the selected data')
+    dailySummary24hrResult = [0,0,0,0,0,0]
+
+print(dailySummary24hrResult)
 
 print('sensors data avaliable')
-for key, val in collectedData.items():
-    print(key)
+print(yesterday, '<- yesterday would be')
 
-print(dailySummary24hr)
 '''
 # setup base structure for collecteddata table
 collectedData = "collectedData"
