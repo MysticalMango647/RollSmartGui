@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 # For Gui
 import sys
 
@@ -20,7 +23,7 @@ import ssl
 import smtplib
 
 #date time
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 import keyboard
 
@@ -273,7 +276,7 @@ class UserList(QDialog):
                 chkBoxItem.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
                 chkBoxItem.setCheckState(QtCore.Qt.Unchecked)
                 self.ui.UserListTable.setItem(elementRow, 2, chkBoxItem)
-                
+
                 #src: https://stackoverflow.com/questions/39511181/python-add-checkbox-to-every-row-in-qtablewidget
                 '''
         #print(self.UserUIDList, "<- UID of all users that are dispayed on the userlist table, The length is ->", len(self.UserUIDList))
@@ -325,15 +328,15 @@ class UserDashboard(QDialog):
         print("made it back to udash")
         print("The practId is: ", pracID)
 
-        '''isPractitioner is going to be a boolean value, that can later 
+        '''isPractitioner is going to be a boolean value, that can later
         be used to determine to to exit out userDashboard to userlist'''
 
 
-        findWhoUserIs = self.getNamefromUID(userId)
+        findWhoUserIs = self.getNamefromUID()
         self.userName = findWhoUserIs
 
         self.WelcomeName.setText(findWhoUserIs)
-        userDescription = self.getDescription(userId)
+        userDescription = self.getDescription()
         self.Description.setText(userDescription)
 
         '''Code keeps breaking upon button press, have to debug'''
@@ -342,10 +345,11 @@ class UserDashboard(QDialog):
         # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
         '''Testing Alt solutions'''
-
         # waitingForButtonPress = self.goToUserDetailedAnalyticsSelectionPage(userId, userName, isPractitioner)
         # self.detailedAnalytics.clicked.connect(waitingForButtonPress)
 
+        '''Loading data from userName'''
+        self.loadUserStats()
 
 
         # block users from making practitioner accounts
@@ -362,18 +366,102 @@ class UserDashboard(QDialog):
         goToWelcome = WelcomeScreen()
         widget.addWidget(goToWelcome)
         widget.setCurrentIndex(widget.currentIndex() + 1)
-    def getNamefromUID(self, userId):
-        person = db.child("loginInfo").order_by_child("UID").equal_to(userId).get().val().keys()
+    def getNamefromUID(self):
+        person = db.child("loginInfo").order_by_child("UID").equal_to(self.userId).get().val().keys()
         userNameis = list(person)
         userNameis = userNameis[0]
         return (userNameis)
 
-    def getDescription(self, userId):
+    def getDescription(self):
         userInfo = db.child("loginInfo").get().val()
         # print(userInfo)
         for key, val in userInfo.items():
-            if val.get('UID') == userId:
+            if val.get('UID') == self.userId:
                 return (val.get('Description'))
+
+    def loadUserStats(self):
+        print(self.userId, "<- data being fetched and updated displayed")
+
+        '''uncomment one line below for real code'''
+        # collectedData = db.child("collectedData").child(self.userId).get().val()
+        '''Below if statement, is just for test demo code, DELETE if statement below and uncomment one above FOR REAL FUNCTIONALITY'''
+        collectedData = db.child("collectedData").child("4nIlD4s8Jdc2Uoa1q0DeONmmisH2").get().val()
+
+        yesterday = (date.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+        listofSensorData = ['heartRate', 'jerk', 'seat', 'speed', 'spo2', 'weightDistribution']
+        dailySummary24hrResult = []
+
+        tempDate = '2023-03-21'
+        sensorListCounter = 0
+
+        dateFound = False
+
+        for items in listofSensorData:
+            print(items, "<- name of the key")
+            print(list(collectedData.keys())[sensorListCounter], "<- name of the key in db")
+            # print(collectedData[items])
+            for dates in collectedData[items]:
+                # print(dates, "<- dates in db")
+                '''uncomment one line below for real code'''
+                # if (dates == yesterdayIs):
+                '''Below if statement, is just for test demo code, DELETE if statement below and uncomment one above FOR REAL FUNCTIONALITY'''
+                if (dates == tempDate):
+                    dateFound = True
+                    print(dates, "<- date caught")
+                    sensorValueCounter = 0
+                    sensorValueSum = 0
+
+                    for key, val in collectedData[items][dates].items():
+                        print(key, "<- time caught")
+                        print(val, "<- data is")
+                        if val == 'null':
+                            continue
+                        else:
+                            sensorValueCounter += 1
+                        # if condition for time
+                        if items == listofSensorData[1]:
+                            sensorValueSum += val[0]
+                        else:
+                            sensorValueSum += val
+
+            if dateFound:
+                print(sensorValueCounter, "<- sensorValueCounter is")
+                print(sensorValueSum, "<- sensorValueSum is")
+                dailySummary24hrResult.append(sensorValueSum / sensorValueCounter)
+
+            sensorListCounter += 1
+
+        if (len(dailySummary24hrResult) == 0):
+            print('no data, on the selected data')
+            dailySummary24hrResult = [0, 0, 0, 0, 0, 0]
+
+        print(dailySummary24hrResult)
+
+        print('sensors data avaliable')
+        print(yesterday, '<- yesterday would be')
+
+        dailySummary24hrResultRounded = []
+        for i in range (len(dailySummary24hrResult)):
+            dailySummary24hrResultRounded.append((round(dailySummary24hrResult[i], 2)))
+
+        print(dailySummary24hrResultRounded, 'dailysummary rounded value')
+
+        GUISensorName = ['HR', 'SR', 'SF', 'SD', 'SP', 'HF']
+        print(dailySummary24hrResult[0], '<- test results of 24 sum of 1st element is ')
+
+        '''
+        #Code breaks when i run this, just manually uploading for individual summary set
+        for i in range(len(GUISensorName)):
+            self.GUISensorName[i].setText(str(dailySummary24hrResultRounded[i]))
+        '''
+        self.HR.setText(str(dailySummary24hrResultRounded[0]))
+        self.SR.setText(str(dailySummary24hrResultRounded[1]))
+        self.SF.setText(str(dailySummary24hrResultRounded[2]))
+        self.SD.setText(str(dailySummary24hrResultRounded[3]))
+        self.SP.setText(str(dailySummary24hrResultRounded[4]))
+        self.HF.setText(str(dailySummary24hrResultRounded[5]))
+
+        return
 
     def goToUserDetailedAnalyticsSelectionPage(self):
         # print("goToUserDetailedAnalyticsSelectionPage coming soon")qt
@@ -623,27 +711,31 @@ class NewAccountCreation(QDialog):
         # SMTP function dereived from: https://www.youtube.com/watch?v=g_j6ILT-X0k&ab_channel=ThePyCoach
         return
 
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    welcome = WelcomeScreen()
+    widget = QtWidgets.QStackedWidget()
+    widget.addWidget(welcome)
+    widget.setFixedHeight(800)
+    widget.setFixedWidth(1200)
+    widget.setWindowIcon(QIcon('projectIcon.jpg'))
+    widget.setWindowTitle("RollSmart")
+    widget.show()
+    try:
+        sys.exit(app.exec_())
+    except:
+        print("Closing Out App")
 
-app = QApplication(sys.argv)
-welcome = WelcomeScreen()
-widget = QtWidgets.QStackedWidget()
-widget.addWidget(welcome)
-widget.setFixedHeight(800)
-widget.setFixedWidth(1200)
-widget.setWindowIcon(QIcon('projectIcon.jpg'))
-widget.setWindowTitle("RollSmart")
-widget.show()
-try:
-    sys.exit(app.exec_())
-except:
-    print("Closing Out App")
 
+    '''
+    Most recent code on line around 382
+    '''
 
-'''
-Refrences Used for this project.
+    '''
+    Refrences Used for this project.
 
-Login in Screen and General PyQt5 Walkthrough were used from 
-https://www.youtube.com/@codefirstwithhala
-Most concepts are derived from Hala and expanded upon to fit our usecase.
+    Login in Screen and General PyQt5 Walkthrough were used from
+    https://www.youtube.com/@codefirstwithhala
+    Most concepts are derived from Hala and expanded upon to fit our usecase.
 
-'''
+    '''

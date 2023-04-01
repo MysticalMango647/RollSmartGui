@@ -484,9 +484,15 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
 
         self.ReturnButton.clicked.connect(loadvals)
         self.SignOut.clicked.connect(self.loadLoginPage)
+        self.loadUserLogTiming()
+
+        selectedStartDate = self.StartDate.date().toString("yyyy-MM-dd")
+        selectedEndDate = self.EndDate.date().toString("yyyy-MM-dd")
+        print(selectedStartDate, 'start qdatewdiget ')
+        print(selectedEndDate, 'end qdatewidget')
 
     def placeholder(self):
-        print("in placehodler")
+        print("in placeholder")
         self.loadUserDashboard(self.userId,self.pracId)
     def loadUserDashboard(self, UID, PID):
         print("in the load user dashboard function")
@@ -498,6 +504,37 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         widget.addWidget(goToWelcome)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+    def loadUserLogTiming(self):
+
+        '''update the UID to self.userId, for real results'''
+        collectedData = db.child("collectedData").child("4nIlD4s8Jdc2Uoa1q0DeONmmisH2").get().val()
+
+        startDate = None
+        endDate = None
+
+        nullDate = "null"
+        listOfDates = []
+        for item in collectedData:
+            for date in collectedData[item]:
+                listOfDates.append(date)
+
+        startDate = str(listOfDates[1])
+        endDate = str(listOfDates[-1])
+
+        print('start date: ', startDate)
+        print('end date: ', endDate)
+        #GetLogStartDate GetLogEndDate
+        self.GetLogStartDate.setText(startDate)
+        self.GetLogEndDate.setText(endDate)
+        startDateSplit = startDate.split("-")
+        endDateSplit = endDate.split("-")
+        #print(startDateSplit)
+
+        updateStartDate = QDate(int(startDateSplit[0]),int(startDateSplit[1]),int(startDateSplit[2]))
+        updateEndDate = QDate(int(endDateSplit[0]),int(endDateSplit[1]),int(endDateSplit[2]))
+
+        self.StartDate.setDate(updateStartDate)
+        self.EndDate.setDate(updateEndDate)
 
 class NewAccountCreation(QDialog):
     def __init__(self, practID):
@@ -726,6 +763,10 @@ if __name__ == "__main__":
     except:
         print("Closing Out App")
 
+
+    '''
+    Most recent code on line around 382
+    '''
 
     '''
     Refrences Used for this project.
