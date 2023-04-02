@@ -1,8 +1,8 @@
 import pyrebase
 from datetime import datetime,timedelta, date
 
-#import plotly.express as px
-#import plotly.graph_objs as go
+import plotly.express as px
+import plotly.graph_objs as go
 
 
 # FireBase KeyConfig
@@ -29,9 +29,10 @@ nullDate = "null"
 listOfDates = []
 
 DateTimeValue = {}
-
-selectedStartDate = '2023-03-07'
-selectedEndDate = '2023-03-21'
+DateAndTimeList = []
+ValueList = []
+selectedStartDate = '2023-02-27'
+selectedEndDate = '2023-03-20'
 
 selectedStartDateSplit = selectedStartDate.split('-')
 selectedStartDateTimeVar = datetime(int(selectedStartDateSplit[0]),int(selectedStartDateSplit[1]),int(selectedStartDateSplit[2]))
@@ -39,8 +40,8 @@ selectedEndDateSplit = selectedStartDate.split('-')
 selectedEndDateTimeVar = datetime(int(selectedEndDateSplit[0]),int(selectedEndDateSplit[1]),int(selectedEndDateSplit[2]))
 
 format = '%Y-%m-%d'
-start_dt = datetime.strptime(selectedStartDate, format)
-end_dt = datetime.strptime(selectedEndDate, format)
+startingPointDate = datetime.strptime(selectedStartDate, format)
+endingPointDate = datetime.strptime(selectedEndDate, format)
 
 for item in collectedData:
     if item == 'heartRate':
@@ -49,19 +50,40 @@ for item in collectedData:
             dateInDbSplit = dateInDb.split('-')
             compareDateInDbVar = datetime(int(dateInDbSplit[0]),int(dateInDbSplit[1]),int(dateInDbSplit[2]))
 
-            if (compareDateInDbVar >= selectedStartDateTimeVar) and (compareDateInDbVar <= selectedEndDateTimeVar):
+            if startingPointDate <= compareDateInDbVar <= endingPointDate:
                 listOfDates.append(dateInDb)
-                print(date)
                 for time, value in collectedData[item][dateInDb].items():
-                    if value != nullDate:
+                    if value == nullDate:
+                        print('skipping date: ', dateInDb, ', Because Value is: ', value)
+                    else:
                         print(item, ', ', dateInDb, ', ', time, ', ', value)
                         DateTimeTogether = dateInDb + ' ' + time
-                        print(DateTimeTogether)
-                        DateTimeValue[DateTimeTogether]=value
+                        DateAndTimeList.append(DateTimeTogether)
+                        ValueList.append(value)
+                        #print(DateTimeTogether)
+                        #DateTimeValue[DateTimeTogether] = value
+            else:
+                (dateInDb, 'skipping this dates, as user per user defined dates.')
+print(DateAndTimeList, 'dt lsit')
+print(ValueList, 'value list')
 
+
+DateTimeValue['DateAndTime']= DateAndTimeList
+DateTimeValue['Value']=ValueList
+
+the_dict = {'dates': ['2020-01-01', '2020-01-02'], 'y_vals': [100,200]}
+fig = px.bar(the_dict, x='dates', y='y_vals')
+fig.show()
+
+'''
+df = px.data.stocks()
+fig = px.line(DateTimeValue, x='DateAndTime', y="Value")
+fig.show()'''
+'''
 print(DateTimeValue)
-
-
+fig = px.bar(DateTimeValue, x='DateAndTime', y='Value')
+fig.show()
+'''
 
 '''
 for i in collectedData:

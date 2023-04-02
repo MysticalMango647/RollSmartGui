@@ -194,8 +194,8 @@ color: rgb(255,255,255);</string>
      <item>
       <widget class="QDateEdit" name="StartDate">
        <property name="styleSheet">
-        <string notr="true">font: 20pt &quot;Corbel&quot;;
-</string>
+        <string notr="true">
+font: 75 20pt &quot;Arial&quot;;</string>
        </property>
        <property name="dateTime">
         <datetime>
@@ -285,8 +285,8 @@ color: rgb(255,255,255);</string>
      <item>
       <widget class="QDateEdit" name="EndDate">
        <property name="styleSheet">
-        <string notr="true">font: 20pt &quot;Corbel&quot;;
-</string>
+        <string notr="true">
+font: 75 20pt &quot;Arial&quot;;</string>
        </property>
        <property name="dateTime">
         <datetime>
@@ -355,16 +355,16 @@ color: rgb(255,255,255);</string>
       <widget class="QLabel" name="GetLogEndDate">
        <property name="font">
         <font>
-         <family>Corbel</family>
-         <pointsize>16</pointsize>
-         <weight>50</weight>
+         <family>Arial</family>
+         <pointsize>20</pointsize>
+         <weight>9</weight>
          <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-color: rgb(255,255,255);</string>
+        <string notr="true">
+font: 75 20pt &quot;Arial&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -378,16 +378,16 @@ color: rgb(255,255,255);</string>
       <widget class="QLabel" name="GetLogStartDate">
        <property name="font">
         <font>
-         <family>Corbel</family>
-         <pointsize>16</pointsize>
-         <weight>50</weight>
+         <family>Arial</family>
+         <pointsize>20</pointsize>
+         <weight>9</weight>
          <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Corbel&quot;;
-color: rgb(255,255,255);</string>
+        <string notr="true">
+font: 75 20pt &quot;Arial&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -413,7 +413,7 @@ color: rgb(255,255,255);</string>
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
-        <string>NOTE! User Logging Timing</string>
+        <string>NOTE! User Logging Timing Dates Back</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -485,7 +485,7 @@ color: rgb(255,255,255);</string>
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="graph1">
        <property name="styleSheet">
         <string notr="true">font: 16pt &quot;Corbel&quot;;
 </string>
@@ -658,7 +658,7 @@ background-color: rgb(147, 136, 162)</string>
  <tabstops>
   <tabstop>StartDate</tabstop>
   <tabstop>EndDate</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>graph1</tabstop>
   <tabstop>pushButton_4</tabstop>
   <tabstop>pushButton_7</tabstop>
   <tabstop>pushButton_5</tabstop>

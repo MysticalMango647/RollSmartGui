@@ -484,6 +484,7 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
 
         self.ReturnButton.clicked.connect(loadvals)
         self.SignOut.clicked.connect(self.loadLoginPage)
+
         self.loadUserLogTiming()
 
         selectedStartDate = self.StartDate.date().toString("yyyy-MM-dd")
