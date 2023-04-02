@@ -159,7 +159,7 @@ color: rgb(255,255,255);</string>
      <item row="6" column="1">
       <widget class="QLabel" name="SP">
        <property name="styleSheet">
-        <string notr="true">font: 22pt &quot;Corbel&quot;;
+        <string notr="true">font: 75 30pt &quot;Arial&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
@@ -173,8 +173,9 @@ color: rgb(255,255,255);</string>
      <item row="6" column="2">
       <widget class="QLabel" name="HF">
        <property name="styleSheet">
-        <string notr="true">font: 22pt &quot;Corbel&quot;;
-color: rgb(255,255,255);</string>
+        <string notr="true">font: 75 30pt &quot;Arial&quot;;
+color: rgb(255,255,255);
+text-decoration: line-through;</string>
        </property>
        <property name="text">
         <string/>
@@ -201,7 +202,7 @@ color: rgb(255,255,255);</string>
      <item row="6" column="0">
       <widget class="QLabel" name="SD">
        <property name="styleSheet">
-        <string notr="true">font: 22pt &quot;Corbel&quot;;
+        <string notr="true">font: 75 30pt &quot;Arial&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">
@@ -229,8 +230,9 @@ color: rgb(255,255,255);</string>
      <item row="3" column="2">
       <widget class="QLabel" name="SF">
        <property name="styleSheet">
-        <string notr="true">font: 22pt &quot;Corbel&quot;;
-color: rgb(255,255,255);</string>
+        <string notr="true">font: 75 30pt &quot;Arial&quot;;
+color: rgb(255,255,255);
+text-decoration: line-through;</string>
        </property>
        <property name="text">
         <string/>
@@ -247,7 +249,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string>Speed</string>
+        <string>Average Speed of Rollator</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -275,7 +277,7 @@ color: rgb(255,255,255);</string>
 </string>
        </property>
        <property name="text">
-        <string>SpO2</string>
+        <string>SpO2 (Oxygen in Blood Percentage)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -314,7 +316,7 @@ color: rgb(255,255,255);</string>
         <string notr="true">font: 16pt &quot;Corbel&quot;;</string>
        </property>
        <property name="text">
-        <string>Heart Rate</string>
+        <string>Average Heart Rate Throughout Day</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -352,8 +354,9 @@ color: rgb(255,255,255);</string>
      <item row="3" column="1">
       <widget class="QLabel" name="SR">
        <property name="styleSheet">
-        <string notr="true">font: 22pt &quot;Corbel&quot;;
-color: rgb(255,255,255);</string>
+        <string notr="true">font: 75 30pt &quot;Arial&quot;;
+color: rgb(255,255,255);
+text-decoration: line-through;</string>
        </property>
        <property name="text">
         <string/>
@@ -366,7 +369,7 @@ color: rgb(255,255,255);</string>
      <item row="3" column="0">
       <widget class="QLabel" name="HR">
        <property name="styleSheet">
-        <string notr="true">font: 22pt &quot;Corbel&quot;;
+        <string notr="true">font: 75 30pt &quot;Arial&quot;;
 color: rgb(255,255,255);</string>
        </property>
        <property name="text">

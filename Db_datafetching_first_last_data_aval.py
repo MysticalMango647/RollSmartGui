@@ -67,13 +67,16 @@ for item in collectedData:
 print(DateAndTimeList, 'dt lsit')
 print(ValueList, 'value list')
 
+fig = px.line(x=DateAndTimeList, y=ValueList)
+fig.show(renderer="browser")
 
+'''
 DateTimeValue['DateAndTime']= DateAndTimeList
 DateTimeValue['Value']=ValueList
 
 the_dict = {'dates': ['2020-01-01', '2020-01-02'], 'y_vals': [100,200]}
 fig = px.bar(the_dict, x='dates', y='y_vals')
-fig.show()
+fig.show()'''
 
 '''
 df = px.data.stocks()

@@ -656,8 +656,8 @@ background-color: rgb(147, 136, 162)</string>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>StartDate</tabstop>
-  <tabstop>EndDate</tabstop>
+  <tabstop>Submit</tabstop>
+  <tabstop>SignOut</tabstop>
   <tabstop>graph1</tabstop>
   <tabstop>pushButton_4</tabstop>
   <tabstop>pushButton_7</tabstop>
@@ -665,7 +665,11 @@ background-color: rgb(147, 136, 162)</string>
   <tabstop>pushButton_8</tabstop>
   <tabstop>pushButton_6</tabstop>
   <tabstop>pushButton_9</tabstop>
-  <tabstop>Submit</tabstop>
+  <tabstop>StartDate</tabstop>
+  <tabstop>EndDate</tabstop>
+  <tabstop>ReturnButton</tabstop>
+  <tabstop>pushButton_10</tabstop>
+  <tabstop>pushButton_11</tabstop>
  </tabstops>
  <resources/>
  <connections/>

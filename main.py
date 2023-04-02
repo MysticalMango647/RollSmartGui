@@ -407,13 +407,13 @@ class UserDashboard(QDialog):
                 '''Below if statement, is just for test demo code, DELETE if statement below and uncomment one above FOR REAL FUNCTIONALITY'''
                 if (dates == tempDate):
                     dateFound = True
-                    print(dates, "<- date caught")
+                    #print(dates, "<- date caught")
                     sensorValueCounter = 0
                     sensorValueSum = 0
 
                     for key, val in collectedData[items][dates].items():
-                        print(key, "<- time caught")
-                        print(val, "<- data is")
+                        #print(key, "<- time caught")
+                        #print(val, "<- data is")
                         if val == 'null':
                             continue
                         else:
