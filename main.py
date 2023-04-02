@@ -425,8 +425,8 @@ class UserDashboard(QDialog):
                             sensorValueSum += val
 
             if dateFound:
-                print(sensorValueCounter, "<- sensorValueCounter is")
-                print(sensorValueSum, "<- sensorValueSum is")
+                #print(sensorValueCounter, "<- sensorValueCounter is")
+                #print(sensorValueSum, "<- sensorValueSum is")
                 dailySummary24hrResult.append(sensorValueSum / sensorValueCounter)
 
             sensorListCounter += 1
@@ -535,6 +535,8 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
 
         self.StartDate.setDate(updateStartDate)
         self.EndDate.setDate(updateEndDate)
+
+
 
 class NewAccountCreation(QDialog):
     def __init__(self, practID):
