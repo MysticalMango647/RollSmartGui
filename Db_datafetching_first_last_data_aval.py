@@ -74,7 +74,7 @@ print(DateAndTimeList, 'dt lsit')
 print(ValueList, 'value list')
 
 
-fig = px.scatter( x = DateAndTimeList ,
+fig = px.line( x = DateAndTimeList ,
               y = ValueList,
               title = 'A simple line graph')
 
@@ -84,16 +84,16 @@ graphName = 'graph.html'
 #var = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
 
 #Testing with scrape directory
-TestD = 'C:/TestingRollSmart' + '/CachedGraph/' + graphName
-TestE = 'C:/TestingRollSmart' + '/CachedGraph/'
+TestD = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
+TestE = str(pathlib.Path().resolve()) + '/CachedGraph/'
 fig.write_html(TestD, auto_open = True)
 
 print(pathlib.Path().resolve())
 
 stopnow = input("enter command 'e' to exit")
 if stopnow == 'e':
-    path = os.path.join(TestE, graphName)
-    os.remove(path)
+    DeleteGraph = os.path.join(TestE, graphName)
+    os.remove(DeleteGraph)
 
 '''
 x=DateAndTimeList

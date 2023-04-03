@@ -199,7 +199,7 @@ font: 75 20pt &quot;Arial&quot;;</string>
        </property>
        <property name="dateTime">
         <datetime>
-         <hour>0</hour>
+         <hour>5</hour>
          <minute>0</minute>
          <second>0</second>
          <year>2023</year>
@@ -209,7 +209,7 @@ font: 75 20pt &quot;Arial&quot;;</string>
        </property>
        <property name="time">
         <time>
-         <hour>0</hour>
+         <hour>5</hour>
          <minute>0</minute>
          <second>0</second>
         </time>
@@ -299,7 +299,7 @@ font: 75 20pt &quot;Arial&quot;;</string>
         </datetime>
        </property>
        <property name="currentSection">
-        <enum>QDateTimeEdit::DaySection</enum>
+        <enum>QDateTimeEdit::YearSection</enum>
        </property>
        <property name="displayFormat">
         <string>yyyy-M-d</string>
@@ -651,6 +651,36 @@ background-color: rgb(147, 136, 162)</string>
     </property>
     <property name="text">
      <string>&lt;-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LoadingSign">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>720</y>
+      <width>821</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Corbel</family>
+      <pointsize>30</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 30pt &quot;Corbel&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>

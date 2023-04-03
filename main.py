@@ -25,6 +25,13 @@ import smtplib
 #date time
 from datetime import datetime, date, timedelta
 
+#for plotting graph and navigating directories
+import sys
+import plotly.express as px
+import pathlib
+import os
+
+
 import keyboard
 
 # KeyConfig
@@ -59,9 +66,19 @@ class WelcomeScreen(QDialog):
         self.pracId = None
         self.EmailEntry.clear()
         self.PasswordEntry.clear()
+        self.clearCachedData()
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Enter:
             self.verifySignIn()
+
+    def clearCachedData(self):
+        graphName = 'RollSmart.html'
+        RemoveGraph = str(pathlib.Path().resolve()) + '/CachedGraph/'
+        RemoveGraphLocation = RemoveGraph + graphName
+        if os.path.exists(RemoveGraphLocation):
+            DeleteGraph = os.path.join(RemoveGraph, graphName)
+            os.remove(DeleteGraph)
+            print("cached graphs, deleted!")
 
     def loadNewAccountCreationPage(self):
         practId = None
@@ -484,13 +501,14 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
 
         self.ReturnButton.clicked.connect(loadvals)
         self.SignOut.clicked.connect(self.loadLoginPage)
+        self.Submit.clicked.connect(self.loadGraph)
 
         self.loadUserLogTiming()
 
-        selectedStartDate = self.StartDate.date().toString("yyyy-MM-dd")
-        selectedEndDate = self.EndDate.date().toString("yyyy-MM-dd")
-        print(selectedStartDate, 'start qdatewdiget ')
-        print(selectedEndDate, 'end qdatewidget')
+        self.selectedStartDate = self.StartDate.date().toString("yyyy-MM-dd")
+        self.selectedEndDate = self.EndDate.date().toString("yyyy-MM-dd")
+        print(self.selectedStartDate, 'start qdatewdiget ')
+        print(self.selectedEndDate, 'end qdatewidget')
 
     def placeholder(self):
         print("in placeholder")
@@ -537,10 +555,83 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         self.StartDate.setDate(updateStartDate)
         self.EndDate.setDate(updateEndDate)
 
-    def LoadGraph(self):
+    def loadGraph(self):
+        self.LoadingSign.setText("Loading...")
+        #LoadingSign
+
+        collectedData = db.child("collectedData").child("4nIlD4s8Jdc2Uoa1q0DeONmmisH2").get().val()
+        collectedDataList = list(collectedData)
+        startDate = None
+        endDate = None
+        nullDate = "null"
+        listOfDates = []
+
+        DateTimeValue = {}
+        DateAndTimeList = []
+        ValueList = []
+
+        selectedStartDate = self.selectedStartDate
+        selectedEndDate = self.selectedEndDate
+
+        selectedStartDateSplit = selectedStartDate.split('-')
+        selectedStartDateTimeVar = datetime(int(selectedStartDateSplit[0]), int(selectedStartDateSplit[1]),
+                                            int(selectedStartDateSplit[2]))
+        selectedEndDateSplit = selectedStartDate.split('-')
+        selectedEndDateTimeVar = datetime(int(selectedEndDateSplit[0]), int(selectedEndDateSplit[1]),
+                                          int(selectedEndDateSplit[2]))
+
+        format = '%Y-%m-%d'
+        startingPointDate = datetime.strptime(selectedStartDate, format)
+        endingPointDate = datetime.strptime(selectedEndDate, format)
+
+        for item in collectedData:
+            if item == 'heartRate':
+                for dateInDb in collectedData[item]:
+
+                    dateInDbSplit = dateInDb.split('-')
+                    compareDateInDbVar = datetime(int(dateInDbSplit[0]), int(dateInDbSplit[1]), int(dateInDbSplit[2]))
+
+                    if startingPointDate <= compareDateInDbVar <= endingPointDate:
+                        listOfDates.append(dateInDb)
+                        for time, value in collectedData[item][dateInDb].items():
+                            if value == nullDate:
+                                print('skipping date: ', dateInDb, ', Because Value is: ', value)
+                            else:
+                                print(item, ', ', dateInDb, ', ', time, ', ', value)
+                                DateTimeTogether = dateInDb + ' ' + time
+                                DateAndTimeList.append(DateTimeTogether)
+                                ValueList.append(value)
+                                # print(DateTimeTogether)
+                                # DateTimeValue[DateTimeTogether] = value
+                    else:
+                        (dateInDb, 'skipping this dates, as user per user defined dates.')
+        print(DateAndTimeList, 'dt lsit')
+        print(ValueList, 'value list')
+
+        fig = px.line(x=DateAndTimeList,
+                      y=ValueList,
+                      title='User Heart Rate Over Time')
+
+        '''fig.show not working, saving as html file'''
+        # fig.show()
+        graphName = 'RollSmart.html'
+        var = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
+
+        # Testing with scrape directory
+        #TestD = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
+        #TestE = str(pathlib.Path().resolve()) + '/CachedGraph/'
+
+        fig.write_html(var, auto_open=True)
 
 
-
+        print(pathlib.Path().resolve())
+        '''
+        stopnow = input("enter command 'e' to exit")
+        if stopnow == 'e':
+            DeleteGraph = os.path.join(TestE, graphName)
+            os.remove(DeleteGraph)
+        '''
+        self.LoadingSign.setText("Loaded, Check Browser :)")
         return
 
 class NewAccountCreation(QDialog):
@@ -768,8 +859,17 @@ if __name__ == "__main__":
     try:
         sys.exit(app.exec_())
     except:
-        print("Closing Out App")
+        graphName = 'RollSmart.html'
+        RemoveGraph = str(pathlib.Path().resolve()) + '/CachedGraph/'
+        RemoveGraphLocation = RemoveGraph + graphName
+        if os.path.exists(RemoveGraphLocation):
+            DeleteGraph = os.path.join(RemoveGraph, graphName)
+            os.remove(DeleteGraph)
+            print("cached graphs, deleted!")
+        else:
+            print("no cached graphs")
 
+        print("Closing Out RollSmart")
 
     '''
     Most recent code on line around 562
