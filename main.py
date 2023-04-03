@@ -67,6 +67,7 @@ class WelcomeScreen(QDialog):
         self.EmailEntry.clear()
         self.PasswordEntry.clear()
         self.clearCachedData()
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Enter:
             self.verifySignIn()
@@ -617,11 +618,9 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         graphName = 'RollSmart.html'
         var = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
 
-        # Testing with scrape directory
-        #TestD = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
-        #TestE = str(pathlib.Path().resolve()) + '/CachedGraph/'
-
         fig.write_html(var, auto_open=True)
+
+
 
 
         print(pathlib.Path().resolve())
