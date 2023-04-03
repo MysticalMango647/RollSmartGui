@@ -1,6 +1,7 @@
 # For Firebase
 import pyrebase
 import pyqtgraph as pg
+import numpy as np
 
 # For Gui
 import sys
@@ -29,7 +30,9 @@ class OutputGraph(QDialog):
     def __init__(self):
         super(OutputGraph, self).__init__()
         loadUi("OutputGraph.ui", self)
-
+        x = np.random.normal(size=1000)
+        y = np.random.normal(size=1000)
+        pg.plot(x, y, pen=None, symbol='o')
 
 
 class GraphSelectionScreen(QDialog):

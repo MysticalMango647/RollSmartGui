@@ -397,8 +397,8 @@ class UserDashboard(QDialog):
         dateFound = False
 
         for items in listofSensorData:
-            print(items, "<- name of the key")
-            print(list(collectedData.keys())[sensorListCounter], "<- name of the key in db")
+            #print(items, "<- name of the key")
+            #print(list(collectedData.keys())[sensorListCounter], "<- name of the key in db")
             # print(collectedData[items])
             for dates in collectedData[items]:
                 # print(dates, "<- dates in db")
@@ -537,7 +537,11 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         self.StartDate.setDate(updateStartDate)
         self.EndDate.setDate(updateEndDate)
 
+    def LoadGraph(self):
 
+
+
+        return
 
 class NewAccountCreation(QDialog):
     def __init__(self, practID):
@@ -768,7 +772,7 @@ if __name__ == "__main__":
 
 
     '''
-    Most recent code on line around 382
+    Most recent code on line around 562
     '''
 
     '''
