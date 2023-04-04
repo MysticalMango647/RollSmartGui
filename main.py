@@ -575,9 +575,14 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
         DateAndTimeList = []
         ValueList = []
 
-        selectedStartDate = self.selectedStartDate
-        selectedEndDate = self.selectedEndDate
+        selectedStartDate = self.StartDate.date().toString("yyyy-MM-dd")
+        selectedEndDate = self.EndDate.date().toString("yyyy-MM-dd")
 
+        print("date for start to create graph -> ", selectedStartDate, " end graph here ->", selectedEndDate)
+
+        #print(self.selectedStartDate.toString(), "Date start selected for analytics")
+
+        print(' The selecte dstart date is -> ', self.selectedStartDate, ' The selectedend end date is -> ', self.selectedEndDate)
         selectedStartDateSplit = selectedStartDate.split('-')
         selectedStartDateTimeVar = datetime(int(selectedStartDateSplit[0]), int(selectedStartDateSplit[1]),
                                             int(selectedStartDateSplit[2]))
@@ -602,7 +607,7 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
                             if value == nullDate:
                                 print('skipping date: ', dateInDb, ', Because Value is: ', value)
                             else:
-                                print(item, ', ', dateInDb, ', ', time, ', ', value)
+                                #print(item, ', ', dateInDb, ', ', time, ', ', value)
                                 DateTimeTogether = dateInDb + ' ' + time
                                 DateAndTimeList.append(DateTimeTogether)
                                 ValueList.append(value)
@@ -617,9 +622,7 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
                       y=ValueList,
                       title= self.userName + ' Heart Rate Over Time').update_layout(
                       xaxis_title="Date", yaxis_title="BPM")
-        '''Code breaks below with axis tittle'''
-        #fig.update_xaxes('Dates')
-        #fig.update_yaxes('BPM')
+
         '''fig.show not working, saving as html file'''
         # fig.show()
         graphName = 'RollSmart.html'

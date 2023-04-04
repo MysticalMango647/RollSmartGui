@@ -38,8 +38,9 @@ listOfDates = []
 DateTimeValue = {}
 DateAndTimeList = []
 ValueList = []
-selectedStartDate = '2023-02-27'
-selectedEndDate = '2023-03-22'
+
+selectedStartDate = '2023-03-06'
+selectedEndDate = '2023-03-08'
 
 selectedStartDateSplit = selectedStartDate.split('-')
 selectedStartDateTimeVar = datetime(int(selectedStartDateSplit[0]), int(selectedStartDateSplit[1]),
