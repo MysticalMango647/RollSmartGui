@@ -472,11 +472,15 @@ class UserDashboard(QDialog):
         for i in range(len(GUISensorName)):
             self.GUISensorName[i].setText(str(dailySummary24hrResultRounded[i]))
         '''
-        self.HR.setText(str(dailySummary24hrResultRounded[0]))
+
+        heartRate = str(dailySummary24hrResultRounded[0]) + ' bpm'
+        speed = str(dailySummary24hrResultRounded[3]) + ' km/h'
+        spo2 = str(dailySummary24hrResultRounded[4]) + ' %'
+        self.HR.setText(heartRate)
         self.SR.setText(str(dailySummary24hrResultRounded[1]))
         self.SF.setText(str(dailySummary24hrResultRounded[2]))
-        self.SD.setText(str(dailySummary24hrResultRounded[3]))
-        self.SP.setText(str(dailySummary24hrResultRounded[4]))
+        self.SD.setText(speed)
+        self.SP.setText(spo2)
         self.HF.setText(str(dailySummary24hrResultRounded[5]))
 
         return
