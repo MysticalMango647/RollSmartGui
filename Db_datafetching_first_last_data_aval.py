@@ -96,13 +96,13 @@ graphName = 'graph.html'
 TestD = str(pathlib.Path().resolve()) + '/CachedGraph/' + graphName
 TestE = str(pathlib.Path().resolve()) + '/CachedGraph/'
 fig.write_html(TestD, auto_open = True)
-'''
+
 from skimage import io
 img = io.imread('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/240px-Crab_Nebula.jpg')
 fig = px.imshow(img)
 
 fig.write_html(TestD, auto_open = True)
-'''
+
 print(pathlib.Path().resolve())
 
 stopnow = input("enter command 'e' to exit")

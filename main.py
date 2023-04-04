@@ -25,7 +25,7 @@ import smtplib
 #date time
 from datetime import datetime, date, timedelta
 
-#for plotting graph and navigating directories
+#for plotting graph and navigating directories, clearing cached graphs
 import sys
 import plotly.express as px
 import pathlib
@@ -610,13 +610,16 @@ class UserDetailedAnalyticsSelectionPage(QDialog):
                                 # DateTimeValue[DateTimeTogether] = value
                     else:
                         (dateInDb, 'skipping this dates, as user per user defined dates.')
-        print(DateAndTimeList, 'dt lsit')
+        print(DateAndTimeList, 'dt list')
         print(ValueList, 'value list')
 
         fig = px.line(x=DateAndTimeList,
                       y=ValueList,
-                      title='User Heart Rate Over Time')
-
+                      title= self.userName + ' Heart Rate Over Time').update_layout(
+                      xaxis_title="Date", yaxis_title="BPM")
+        '''Code breaks below with axis tittle'''
+        #fig.update_xaxes('Dates')
+        #fig.update_yaxes('BPM')
         '''fig.show not working, saving as html file'''
         # fig.show()
         graphName = 'RollSmart.html'
